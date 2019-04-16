@@ -23,7 +23,7 @@
                         password="${jdbc.password}">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.study.entity"
+        <javaModelGenerator targetPackage="com.yuntong.backend.entity"
                             targetProject="src/main/java">
             <property name="trimStrings" value="true" />
             <property name="rootClass" value="com.study.entity.BaseEntity"/>
@@ -35,12 +35,24 @@
 
         <!-- targetPackage：mapper接口生成的位置 -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.study.dao"
+                             targetPackage="com.yuntong.backend.dao"
                              targetProject="src/main/java">
         </javaClientGenerator>
 
         <!-- 指定数据库表 -->
-        <table tableName="yuntong_user" domainObjectName="User" />
+        <!--<table tableName="yt_user" domainObjectName="UserBase" />-->
+        <!--<table tableName="yt_role" domainObjectName="RoleBase" />-->
+        <!--<table tableName="yt_user_role" domainObjectName="UserRoleBase" />-->
+        <!--<table tableName="yt_uri_source" domainObjectName="UriSourceBase" />-->
+        <!--<table tableName="yt_role_source" domainObjectName="RoleSourceBase" />-->
+        <!--<table tableName="yt_sys_log" domainObjectName="SysLogBase" />-->
+        <table tableName="yt_storage" domainObjectName="StorageBase" />
+        <!--<table tableName="yt_contract" domainObjectName="ContractBase" />-->
+        <!--<table tableName="yt_contract_order" domainObjectName="ContractOrderBase" />-->
+        <!--<table tableName="yt_small_item" domainObjectName="SmallItemBase" />-->
+        <!--<table tableName="yt_small_item_attachment" domainObjectName="SmallItemAttachmentBase" />-->
+        <!--<table tableName="yt_material" domainObjectName="MaterialBase" />-->
+        <!--<table tableName="yt_material_log" domainObjectName="MaterialLogBase" />-->
 
     </context>
 </generatorConfiguration>

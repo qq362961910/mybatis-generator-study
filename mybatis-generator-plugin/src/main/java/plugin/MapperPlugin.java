@@ -22,7 +22,7 @@ public class MapperPlugin extends PluginAdapter {
             + introspectedTable.getExampleType() + ","
             + "java.lang.Long" + ">");
         FullyQualifiedJavaType imp = new FullyQualifiedJavaType(
-            "com.study.security.dao.BaseMapper");
+            "com.yuntong.backend.dao.BaseMapper");
         //添加 extends MybatisBaseMapper
         interfaze.addSuperInterface(fqjt);
 
