@@ -17,18 +17,6 @@
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <version>${mybatis.generator.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>8.0.15</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>study</groupId>
-                        <artifactId>mybatis-generator-plugin</artifactId>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

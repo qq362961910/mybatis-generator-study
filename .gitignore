@@ -22,3 +22,6 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+mybatis-generator-app/src/main/java/*
+mybatis-generator-app/src/main/resources/mybatis/mapping/*
