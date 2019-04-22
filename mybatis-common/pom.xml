@@ -9,8 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mybatis-generator-plugin</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>mybatis-common</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>mybatis-common-entity</module>
+        <module>mybatis-common-dao</module>
+    </modules>
 
     <dependencies>
         <dependency>
@@ -18,11 +22,5 @@
             <artifactId>mybatis</artifactId>
             <version>${mybatis.core.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.mybatis.generator</groupId>
-            <artifactId>mybatis-generator-core</artifactId>
-            <version>${mybatis.generator.version}</version>
-        </dependency>
     </dependencies>
-
 </project>

@@ -46,8 +46,8 @@
         <!--<table tableName="yt_uri_source" domainObjectName="UriSourceBase" />-->
         <!--<table tableName="yt_role_source" domainObjectName="RoleSourceBase" />-->
         <!--<table tableName="yt_sys_log" domainObjectName="SysLogBase" />-->
-        <table tableName="yt_storage" domainObjectName="StorageBase" />
-        <!--<table tableName="yt_contract" domainObjectName="ContractBase" />-->
+        <!--<table tableName="yt_storage" domainObjectName="StorageBase" />-->
+        <table tableName="yt_contract" domainObjectName="ContractBase" />
         <!--<table tableName="yt_contract_order" domainObjectName="ContractOrderBase" />-->
         <!--<table tableName="yt_small_item" domainObjectName="SmallItemBase" />-->
         <!--<table tableName="yt_small_item_attachment" domainObjectName="SmallItemAttachmentBase" />-->

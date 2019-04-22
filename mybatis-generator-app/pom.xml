@@ -17,7 +17,7 @@
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <version>1.3.7</version>
+                <version>${mybatis.generator.version}</version>
                 <dependencies>
                     <dependency>
                         <groupId>mysql</groupId>
@@ -27,7 +27,6 @@
                     <dependency>
                         <groupId>study</groupId>
                         <artifactId>mybatis-generator-plugin</artifactId>
-                        <version>1.0-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
             </plugin>
