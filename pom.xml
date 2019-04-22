@@ -114,6 +114,16 @@
                             <artifactId>mybatis-generator-plugin</artifactId>
                             <version>${app.version}</version>
                         </dependency>
+                        <dependency>
+                            <groupId>study</groupId>
+                            <artifactId>mybatis-common-entity</artifactId>
+                            <version>${app.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>study</groupId>
+                            <artifactId>mybatis-common-dao</artifactId>
+                            <version>${app.version}</version>
+                        </dependency>
                     </dependencies>
                 </plugin>
             </plugins>

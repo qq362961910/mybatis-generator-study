@@ -9,6 +9,8 @@
 
     <context id="generateTables" targetRuntime="MyBatis3">
 
+        <!-- model 插件-->
+        <plugin type="plugin.ModelPlugin" />
         <!-- 配置内置的或者自定义的Plugin -->
         <plugin type="plugin.MapperPlugin" />
 
@@ -26,7 +28,7 @@
         <javaModelGenerator targetPackage="com.yuntong.backend.entity"
                             targetProject="src/main/java">
             <property name="trimStrings" value="true" />
-            <property name="rootClass" value="com.study.entity.BaseEntity"/>
+            <property name="rootClass" value="com.study.mybatis.entity.BaseEntity"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="mybatis.mapping"
@@ -41,13 +43,13 @@
 
         <!-- 指定数据库表 -->
         <!--<table tableName="yt_user" domainObjectName="UserBase" />-->
-        <!--<table tableName="yt_role" domainObjectName="RoleBase" />-->
+        <table tableName="yt_role" domainObjectName="RoleBase" />
         <!--<table tableName="yt_user_role" domainObjectName="UserRoleBase" />-->
         <!--<table tableName="yt_uri_source" domainObjectName="UriSourceBase" />-->
         <!--<table tableName="yt_role_source" domainObjectName="RoleSourceBase" />-->
         <!--<table tableName="yt_sys_log" domainObjectName="SysLogBase" />-->
         <!--<table tableName="yt_storage" domainObjectName="StorageBase" />-->
-        <table tableName="yt_contract" domainObjectName="ContractBase" />
+        <!--<table tableName="yt_contract" domainObjectName="ContractBase" />-->
         <!--<table tableName="yt_contract_order" domainObjectName="ContractOrderBase" />-->
         <!--<table tableName="yt_small_item" domainObjectName="SmallItemBase" />-->
         <!--<table tableName="yt_small_item_attachment" domainObjectName="SmallItemAttachmentBase" />-->

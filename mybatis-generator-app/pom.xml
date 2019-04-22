@@ -12,6 +12,17 @@
     <artifactId>mybatis-generator-app</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>study</groupId>
+            <artifactId>mybatis-common-entity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>study</groupId>
+            <artifactId>mybatis-common-dao</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>

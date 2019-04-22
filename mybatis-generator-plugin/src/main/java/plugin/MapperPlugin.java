@@ -33,4 +33,5 @@ public class MapperPlugin extends PluginAdapter {
         interfaze.getAnnotations().clear();
         return true;
     }
+
 }
