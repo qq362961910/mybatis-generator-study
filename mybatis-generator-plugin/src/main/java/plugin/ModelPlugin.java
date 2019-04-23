@@ -4,7 +4,6 @@ import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.*;
-import util.ContextUtil;
 
 import java.util.List;
 
@@ -63,11 +62,6 @@ public class ModelPlugin extends PluginAdapter {
 
     @Override
     public boolean modelPrimaryKeyClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        String tableName = introspectedTable.getFullyQualifiedTable().getIntrospectedTableName();
-        String clazz = introspectedTable.getBaseRecordType();
-        String idClass = topLevelClass.getType().getFullyQualifiedName();
-        ContextUtil.addTableEntityMapping(tableName, clazz);
-        ContextUtil.addTableIdClassMapping(tableName, idClass);
         return super.modelPrimaryKeyClassGenerated(topLevelClass, introspectedTable);
     }
 

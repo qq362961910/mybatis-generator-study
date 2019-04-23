@@ -31,8 +31,6 @@ public class AppCommentGenerator implements CommentGenerator {
     }
 
     public void addJavaFileComment(CompilationUnit compilationUnit) {
-        // add no file level comments by default
-        return;
     }
 
     /**
@@ -40,12 +38,9 @@ public class AppCommentGenerator implements CommentGenerator {
      * when it was generated.
      */
     public void addComment(XmlElement xmlElement) {
-        return;
     }
 
     public void addRootComment(XmlElement rootElement) {
-        // add no document level comments by default
-        return;
     }
 
     public void addConfigurationProperties(Properties properties) {
@@ -83,18 +78,10 @@ public class AppCommentGenerator implements CommentGenerator {
         return result;
     }
 
+    /**
+     * 控制Example类中Criteria类的注释
+     * */
     public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable) {
-        if (suppressAllComments) {
-            return;
-        }
-        StringBuilder sb = new StringBuilder();
-        innerClass.addJavaDocLine("/**");
-        sb.append(" * ");
-        sb.append(introspectedTable.getFullyQualifiedTable());
-        sb.append(" ");
-        sb.append(getDateString());
-        innerClass.addJavaDocLine(sb.toString().replace("\n", " "));
-        innerClass.addJavaDocLine(" */");
     }
 
     public void addEnumComment(InnerEnum innerEnum, IntrospectedTable introspectedTable) {
@@ -113,16 +100,10 @@ public class AppCommentGenerator implements CommentGenerator {
         field.addJavaDocLine(" */");
     }
 
+    /**
+     * 控制example属性注释
+     * */
     public void addFieldComment(Field field, IntrospectedTable introspectedTable) {
-        if (suppressAllComments) {
-            return;
-        }
-        StringBuilder sb = new StringBuilder();
-        field.addJavaDocLine("/**");
-        sb.append(" * ");
-        sb.append(introspectedTable.getFullyQualifiedTable());
-        field.addJavaDocLine(sb.toString().replace("\n", " "));
-        field.addJavaDocLine(" */");
     }
 
     public void addGeneralMethodComment(Method method, IntrospectedTable introspectedTable) {
