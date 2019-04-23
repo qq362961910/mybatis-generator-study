@@ -11,13 +11,14 @@
 
         <!-- model 插件-->
         <plugin type="plugin.ModelPlugin" />
-        <!-- 配置内置的或者自定义的Plugin -->
+        <!-- mapper 插件 -->
         <plugin type="plugin.MapperPlugin" />
+        <!-- sql map 插件-->
+        <plugin type="plugin.SqlMapPlugin" />
 
 
-        <commentGenerator>
-            <property name="suppressAllComments" value="true" />
-        </commentGenerator>
+        <commentGenerator type="generator.AppCommentGenerator"/>
+
         <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
         <jdbcConnection driverClass="${jdbc.driverClassName}"
                         connectionURL="${jdbc.url}"
@@ -25,9 +26,12 @@
                         password="${jdbc.password}">
         </jdbcConnection>
 
+        <javaTypeResolver>
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
         <javaModelGenerator targetPackage="com.yuntong.backend.entity"
                             targetProject="src/main/java">
-            <property name="trimStrings" value="true" />
             <property name="rootClass" value="com.study.mybatis.entity.BaseEntity"/>
         </javaModelGenerator>
 
@@ -44,7 +48,9 @@
         <!-- 指定数据库表 -->
         <!--<table tableName="yt_user" domainObjectName="UserBase" />-->
         <table tableName="yt_role" domainObjectName="RoleBase" />
-        <!--<table tableName="yt_user_role" domainObjectName="UserRoleBase" />-->
+        <table tableName="yt_user_role" domainObjectName="UserRoleBase" >
+            <property name="virtualKeyColumns" value="user_id, role_id"/>
+        </table>
         <!--<table tableName="yt_uri_source" domainObjectName="UriSourceBase" />-->
         <!--<table tableName="yt_role_source" domainObjectName="RoleSourceBase" />-->
         <!--<table tableName="yt_sys_log" domainObjectName="SysLogBase" />-->

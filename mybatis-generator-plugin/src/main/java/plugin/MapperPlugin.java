@@ -5,6 +5,7 @@ import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
+import util.ContextUtil;
 
 import java.util.List;
 
@@ -20,18 +21,16 @@ public class MapperPlugin extends PluginAdapter {
         FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType("BaseMapper<"
             + introspectedTable.getBaseRecordType() + ","
             + introspectedTable.getExampleType() + ","
-            + "java.lang.Long" + ">");
-        FullyQualifiedJavaType imp = new FullyQualifiedJavaType(
-            "com.yuntong.backend.dao.BaseMapper");
+            + ContextUtil.getTableIdClass(introspectedTable.getFullyQualifiedTable().getIntrospectedTableName()) + ">");
         //添加 extends MybatisBaseMapper
         interfaze.addSuperInterface(fqjt);
-
         //添加com.study.security.dao.BaseMapper
-        interfaze.addImportedType(imp);
+        interfaze.addImportedType(new FullyQualifiedJavaType("com.study.mybatis.dao.BaseMapper"));
         //方法不需要
         interfaze.getMethods().clear();
         interfaze.getAnnotations().clear();
         return true;
     }
+
 
 }

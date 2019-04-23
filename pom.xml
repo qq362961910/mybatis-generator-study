@@ -97,37 +97,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.mybatis.generator</groupId>
-                    <artifactId>mybatis-generator-maven-plugin</artifactId>
-                    <version>${mybatis.generator.version}</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>mysql</groupId>
-                            <artifactId>mysql-connector-java</artifactId>
-                            <version>${mysql.connector.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>study</groupId>
-                            <artifactId>mybatis-generator-plugin</artifactId>
-                            <version>${app.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>study</groupId>
-                            <artifactId>mybatis-common-entity</artifactId>
-                            <version>${app.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>study</groupId>
-                            <artifactId>mybatis-common-dao</artifactId>
-                            <version>${app.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 
 </project>
