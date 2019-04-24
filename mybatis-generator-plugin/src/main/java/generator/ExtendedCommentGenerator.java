@@ -6,6 +6,7 @@ import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.*;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.config.PropertyRegistry;
+import org.mybatis.generator.internal.util.StringUtility;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,14 +15,14 @@ import java.util.Set;
 
 import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 
-public class AppCommentGenerator implements CommentGenerator {
+public class ExtendedCommentGenerator implements CommentGenerator {
     private Properties properties;
     private Properties systemPro;
     private boolean suppressDate;
     private boolean suppressAllComments;
     private String currentDateStr;
 
-    public AppCommentGenerator() {
+    public ExtendedCommentGenerator() {
         super();
         properties = new Properties();
         systemPro = System.getProperties();
@@ -95,7 +96,11 @@ public class AppCommentGenerator implements CommentGenerator {
         StringBuilder sb = new StringBuilder();
         field.addJavaDocLine("/**");
         sb.append(" * ");
-        sb.append(introspectedColumn.getRemarks());
+        if(StringUtility.stringHasValue(introspectedColumn.getRemarks())) {
+            sb.append(introspectedColumn.getRemarks());
+        } else {
+            sb.append(introspectedColumn.getActualColumnName());
+        }
         field.addJavaDocLine(sb.toString().replace("\n", " "));
         field.addJavaDocLine(" */");
     }
