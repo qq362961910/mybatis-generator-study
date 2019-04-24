@@ -7,7 +7,7 @@
     <!-- 引入配置文件 -->
     <properties resource="jdbc.properties" />
 
-    <context id="generateTables" targetRuntime="MyBatis3">
+    <context id="generateTables" targetRuntime="mybatis3.ExtendedIntrospectedTableMyBatis3Impl">
 
         <!-- model 插件-->
         <plugin type="plugin.ModelPlugin" />
@@ -48,9 +48,7 @@
         <!-- 指定数据库表 -->
         <!--<table tableName="yt_user" domainObjectName="UserBase" />-->
         <table tableName="yt_role" domainObjectName="RoleBase" />
-        <table tableName="yt_user_role" domainObjectName="UserRoleBase" >
-            <property name="virtualKeyColumns" value="user_id, role_id"/>
-        </table>
+        <table tableName="yt_user_role" domainObjectName="UserRoleBase"/>
         <!--<table tableName="yt_uri_source" domainObjectName="UriSourceBase" />-->
         <!--<table tableName="yt_role_source" domainObjectName="RoleSourceBase" />-->
         <!--<table tableName="yt_sys_log" domainObjectName="SysLogBase" />-->
