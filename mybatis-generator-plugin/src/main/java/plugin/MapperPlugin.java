@@ -27,20 +27,14 @@ public class MapperPlugin extends PluginAdapter {
             } else {
                 primaryKeyType = introspectedTable.getPrimaryKeyType();
             }
-            primaryKeyType = primaryKeyType.substring(primaryKeyType.lastIndexOf(".") + 1);
-
-            //添加 extends MybatisBaseMapper
-            interfaze.addSuperInterface(calculateSuperInterface(introspectedTable.getBaseRecordType(), introspectedTable.getExampleType(), primaryKeyType));
-
+            //引入清理
+            interfaze.getImportedTypes().clear();
+            //继承接口
+            setSuperInterfaceAndNessaryImport(interfaze, introspectedTable.getBaseRecordType(), introspectedTable.getExampleType(), primaryKeyType);
             //方法不需要
             interfaze.getMethods().clear();
             //注解清理
             interfaze.getAnnotations().clear();
-            //引入清理
-            interfaze.getImportedTypes().clear();
-
-            //添加com.study.security.dao.BaseMapper
-            interfaze.addImportedType(new FullyQualifiedJavaType("com.study.mybatis.dao.BaseMapper"));
 
             return true;
         } else {
@@ -49,11 +43,17 @@ public class MapperPlugin extends PluginAdapter {
     }
 
 
-    private FullyQualifiedJavaType calculateSuperInterface(String baseRecordType, String exampleType, String primaryType) {
+    private void setSuperInterfaceAndNessaryImport(Interface interfaze, String baseRecordType, String exampleType, String primaryType) {
         StringBuilder fullQualifiedClassNameBuilder = new StringBuilder("BaseMapper<");
         fullQualifiedClassNameBuilder.append(baseRecordType).append(", ");
         fullQualifiedClassNameBuilder.append(exampleType).append(", ");
         fullQualifiedClassNameBuilder.append(primaryType).append(">");
-        return new FullyQualifiedJavaType(fullQualifiedClassNameBuilder.toString());
+        interfaze.addSuperInterface(new FullyQualifiedJavaType(fullQualifiedClassNameBuilder.toString()));
+
+        //添加com.study.security.dao.BaseMapper
+        interfaze.addImportedType(new FullyQualifiedJavaType("com.study.mybatis.dao.BaseMapper"));
+        interfaze.addImportedType(new FullyQualifiedJavaType(baseRecordType));
+        interfaze.addImportedType(new FullyQualifiedJavaType(exampleType));
+        interfaze.addImportedType(new FullyQualifiedJavaType(primaryType));
     }
 }
