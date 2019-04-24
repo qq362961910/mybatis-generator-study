@@ -21,6 +21,8 @@ import java.util.List;
  * */
 public class ModelPlugin extends PluginAdapter {
 
+    private static final FullyQualifiedJavaType SERIALIZABLE = new FullyQualifiedJavaType("java.io.Serializable");
+
     public boolean validate(List<String> warnings) {
         return true;
     }
@@ -37,10 +39,23 @@ public class ModelPlugin extends PluginAdapter {
         serialVersionUID.setFinal(true);
         serialVersionUID.setType(new FullyQualifiedJavaType("long"));
         serialVersionUID.setInitializationString("1L");
-        topLevelClass.addField(serialVersionUID);
-
+        topLevelClass.getFields().add(0, serialVersionUID);
         return super.modelBaseRecordClassGenerated(topLevelClass, introspectedTable);
     }
+
+    /**
+     * 生成主键类
+     * */
+    @Override
+    public boolean modelPrimaryKeyClassGenerated(TopLevelClass topLevelClass,
+                                                 IntrospectedTable introspectedTable) {
+        topLevelClass.setSuperClass((FullyQualifiedJavaType)null);
+        topLevelClass.addSuperInterface(SERIALIZABLE);
+        topLevelClass.getImportedTypes().clear();
+        topLevelClass.addImportedType(SERIALIZABLE);
+        return true;
+    }
+
 
     @Override
     public boolean modelExampleClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
@@ -58,11 +73,6 @@ public class ModelPlugin extends PluginAdapter {
     @Override
     public boolean modelGetterMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
         return super.modelGetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, modelClassType);
-    }
-
-    @Override
-    public boolean modelPrimaryKeyClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        return super.modelPrimaryKeyClassGenerated(topLevelClass, introspectedTable);
     }
 
     @Override
