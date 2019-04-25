@@ -49,9 +49,9 @@
 
         <!-- 指定数据库表 -->
         <!--<table tableName="yt_user" domainObjectName="UserBase" />-->
-        <table tableName="yt_role" domainObjectName="RoleBase">
-            <generatedKey column="id" sqlStatement="JDBC"/>
-        </table>
+        <!--<table tableName="yt_role" domainObjectName="RoleBase">-->
+            <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
+        <!--</table>-->
         <table tableName="yt_user_role" domainObjectName="UserRoleBase"/>
         <!--<table tableName="yt_uri_source" domainObjectName="UriSourceBase" />-->
         <!--<table tableName="yt_role_source" domainObjectName="RoleSourceBase" />-->
