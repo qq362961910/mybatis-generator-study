@@ -15,6 +15,9 @@ import java.util.Set;
 
 import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 
+/**
+ * 注释类生成器扩展,在commentGenerator标签配置
+ * */
 public class ExtendedCommentGenerator implements CommentGenerator {
     private Properties properties;
     private Properties systemPro;

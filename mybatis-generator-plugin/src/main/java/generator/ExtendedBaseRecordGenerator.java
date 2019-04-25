@@ -1,5 +1,6 @@
 package generator;
 
+import constants.FieldConstants;
 import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.IntrospectedColumn;
@@ -17,8 +18,7 @@ import static org.mybatis.generator.internal.util.JavaBeansUtil.*;
 import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 /**
- * 实体类生成器扩展
- * 自定义getSuperClass()
+ * 实体类生成器扩展，被ExtendedIntrospectedTableMyBatis3Impl加载
  * */
 public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
 
@@ -99,6 +99,9 @@ public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
         return answer;
     }
 
+    /**
+     * 此处修改了父类的实现从而使实体类不再继承主键类
+     * */
     private FullyQualifiedJavaType getSuperClass() {
         String rootClass = getRootClass();
         if (rootClass != null) {
@@ -187,13 +190,14 @@ public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
      * 如果是联合主键则取消实体类继承关系，将主键类添加到实体类中的字段中
      * */
     private void setUnionKeyAsField(TopLevelClass topLevelClass) {
-        if (introspectedTable.getRules().generatePrimaryKeyClass()) {
+        List<IntrospectedColumn> keyColumns = introspectedTable.getPrimaryKeyColumns();
+        if (keyColumns != null && keyColumns.size() > 1) {
             String primaryKeyType = introspectedTable.getPrimaryKeyType();
             if (primaryKeyType != null) {
                 FullyQualifiedJavaType unionKeyClass = new FullyQualifiedJavaType(primaryKeyType);
 
                 //添加主键为属性属性
-                Field unionKeyField = new Field("unionKey", unionKeyClass);
+                Field unionKeyField = new Field(FieldConstants.UNION_KEY_PROPERTY_NAME, unionKeyClass);
                 unionKeyField.setVisibility(JavaVisibility.PRIVATE);
                 topLevelClass.addField(unionKeyField);
                 topLevelClass.addImportedType(unionKeyClass);
