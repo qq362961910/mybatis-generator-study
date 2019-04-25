@@ -18,7 +18,6 @@ public class MapperPlugin extends PluginAdapter {
     @Override
     public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         if(introspectedTable.hasPrimaryKeyColumns()) {
-
             //获取主键类型
             List<IntrospectedColumn> introspectedColumns = introspectedTable.getPrimaryKeyColumns();
             String primaryKeyType;
@@ -35,7 +34,6 @@ public class MapperPlugin extends PluginAdapter {
             interfaze.getMethods().clear();
             //注解清理
             interfaze.getAnnotations().clear();
-
             return true;
         } else {
             throw new RuntimeException("未找到主键类型");
