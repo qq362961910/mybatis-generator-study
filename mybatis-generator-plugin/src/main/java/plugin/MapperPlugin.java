@@ -49,7 +49,7 @@ public class MapperPlugin extends PluginAdapter {
         interfaze.addSuperInterface(new FullyQualifiedJavaType(fullQualifiedClassNameBuilder.toString()));
 
         //添加com.study.security.dao.BaseMapper
-        interfaze.addImportedType(new FullyQualifiedJavaType("com.study.mybatis.dao.BaseMapper"));
+        interfaze.addImportedType(new FullyQualifiedJavaType("cn.t.base.mybatis.dao.BaseMapper"));
         interfaze.addImportedType(new FullyQualifiedJavaType(baseRecordType));
         interfaze.addImportedType(new FullyQualifiedJavaType(exampleType));
         interfaze.addImportedType(new FullyQualifiedJavaType(primaryType));

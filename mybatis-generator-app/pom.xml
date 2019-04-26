@@ -14,12 +14,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>study</groupId>
-            <artifactId>mybatis-common-entity</artifactId>
+            <groupId>cn.t</groupId>
+            <artifactId>base-module-mybatis-entity</artifactId>
+            <version>1.0.0-RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>study</groupId>
-            <artifactId>mybatis-common-dao</artifactId>
+            <groupId>cn.t</groupId>
+            <artifactId>base-module-mybatis-dao</artifactId>
+            <version>1.0.0-RELEASE</version>
         </dependency>
     </dependencies>
 
@@ -46,14 +48,14 @@
                         <version>${app.version}</version>
                     </dependency>
                     <dependency>
-                        <groupId>study</groupId>
-                        <artifactId>mybatis-common-entity</artifactId>
-                        <version>${app.version}</version>
+                        <groupId>cn.t</groupId>
+                        <artifactId>base-module-mybatis-entity</artifactId>
+                        <version>1.0.0-RELEASE</version>
                     </dependency>
                     <dependency>
-                        <groupId>study</groupId>
-                        <artifactId>mybatis-common-dao</artifactId>
-                        <version>${app.version}</version>
+                        <groupId>cn.t</groupId>
+                        <artifactId>base-module-mybatis-dao</artifactId>
+                        <version>1.0.0-RELEASE</version>
                     </dependency>
                 </dependencies>
             </plugin>
