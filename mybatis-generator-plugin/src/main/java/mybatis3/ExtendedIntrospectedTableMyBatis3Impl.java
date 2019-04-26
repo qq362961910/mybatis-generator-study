@@ -8,9 +8,13 @@ import org.mybatis.generator.codegen.mybatis3.IntrospectedTableMyBatis3Impl;
 import org.mybatis.generator.codegen.mybatis3.model.BaseRecordGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.ExampleGenerator;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBatis3Impl {
+
+    protected Map<ExtendedInternalAttribute, String> extendedInternalAttributes = new HashMap<>();
 
     @Override
     protected void calculateJavaModelGenerators(List<String> warnings, ProgressCallback progressCallback) {
@@ -43,5 +47,23 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
 //            }
 //        }
         super.initialize();
+    }
+
+    @Override
+    protected void calculateXmlAttributes() {
+        super.calculateXmlAttributes();
+        setUnionKeyMapMapId("UnionKeyMap");
+    }
+
+    public void setUnionKeyMapMapId(String s) {
+        extendedInternalAttributes.put(ExtendedInternalAttribute.ATTR_UNION_KEY_MAP_ID, s);
+    }
+
+    public String getUnionKeyMapMapId() {
+        return extendedInternalAttributes.get(ExtendedInternalAttribute.ATTR_UNION_KEY_MAP_ID);
+    }
+
+    protected enum ExtendedInternalAttribute {
+        ATTR_UNION_KEY_MAP_ID
     }
 }

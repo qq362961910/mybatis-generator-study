@@ -80,6 +80,9 @@ public class ExtendedInsertElementGenerator extends InsertElementGenerator {
             insertClause.append(MyBatis3FormattingUtilities
                 .getEscapedColumnName(introspectedColumn));
 
+            /**
+             * 联合主键情况下拼接内联主键属性前缀
+             * */
             if(primaryKeyColumns.size() > 1 && primaryKeyColumns.contains(introspectedColumn)) {
                 for(IntrospectedColumn keyColumn: primaryKeyColumns) {
                     if(keyColumn.getActualColumnName().equals(introspectedColumn.getActualColumnName())) {
