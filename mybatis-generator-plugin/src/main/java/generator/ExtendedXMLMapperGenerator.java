@@ -12,6 +12,16 @@ public class ExtendedXMLMapperGenerator extends XMLMapperGenerator {
 
 
     @Override
+    protected XmlElement getSqlMapElement() {
+        if(simpleRecordClassName()) {
+            introspectedTable.setPrimaryKeyType(simplyClassName(introspectedTable.getPrimaryKeyType()));
+            introspectedTable.setBaseRecordType(simplyClassName(introspectedTable.getBaseRecordType()));
+            introspectedTable.setExampleType(simplyClassName(introspectedTable.getExampleType()));
+        }
+        return super.getSqlMapElement();
+    }
+
+    @Override
     protected void addInsertElement(XmlElement parentElement) {
         if (introspectedTable.getRules().generateInsert()) {
             if (introspectedTable.getPrimaryKeyColumns().size() > 1) {
@@ -54,5 +64,25 @@ public class ExtendedXMLMapperGenerator extends XMLMapperGenerator {
             AbstractXmlElementGenerator elementGenerator = new ExtendedUpdateByPrimaryKeySelectiveElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
+    }
+
+    private boolean simpleRecordClassName() {
+        String simpleRecordClassNameStr = (String)introspectedTable.getContext().getSqlMapGeneratorConfiguration().getProperties().get("simpleRecordClassName");
+        if(simpleRecordClassNameStr == null || simpleRecordClassNameStr.trim().length() == 0) {
+            return false;
+        }
+        try {
+            return Boolean.valueOf(simpleRecordClassNameStr);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private String simplyClassName(String fullClassName) {
+        int simplyClassNameIndex = fullClassName.lastIndexOf(".") + 1;
+        if(simplyClassNameIndex == -1) {
+            return fullClassName;
+        }
+        return fullClassName.substring(simplyClassNameIndex);
     }
 }

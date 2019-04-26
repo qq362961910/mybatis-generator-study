@@ -19,28 +19,18 @@ public class ExtendedInsertElementGenerator extends InsertElementGenerator {
 
     private boolean isSimple;
 
-
     @Override
     public void addElements(XmlElement parentElement) {
         XmlElement answer = new XmlElement("insert");
-
-        answer.addAttribute(new Attribute(
-            "id", introspectedTable.getInsertStatementId()));
-
+        answer.addAttribute(new Attribute("id", introspectedTable.getInsertStatementId()));
         FullyQualifiedJavaType parameterType;
         if (isSimple) {
-            parameterType = new FullyQualifiedJavaType(
-                introspectedTable.getBaseRecordType());
+            parameterType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
         } else {
-            parameterType = introspectedTable.getRules()
-                .calculateAllFieldsClass();
+            parameterType = introspectedTable.getRules().calculateAllFieldsClass();
         }
-
-        answer.addAttribute(new Attribute("parameterType",
-            parameterType.getFullyQualifiedName()));
-
+        answer.addAttribute(new Attribute("parameterType", parameterType.getFullyQualifiedName()));
         context.getCommentGenerator().addComment(answer);
-
         GeneratedKey gk = introspectedTable.getGeneratedKey();
         if (gk != null) {
             IntrospectedColumn introspectedColumn = introspectedTable
@@ -49,25 +39,18 @@ public class ExtendedInsertElementGenerator extends InsertElementGenerator {
             // warning has already been reported
             if (introspectedColumn != null) {
                 if (gk.isJdbcStandard()) {
-                    answer.addAttribute(new Attribute(
-                        "useGeneratedKeys", "true")); //$NON-NLS-2$
-                    answer.addAttribute(new Attribute(
-                        "keyProperty", introspectedColumn.getJavaProperty()));
-                    answer.addAttribute(new Attribute(
-                        "keyColumn", introspectedColumn.getActualColumnName()));
+                    answer.addAttribute(new Attribute("useGeneratedKeys", "true"));
+                    answer.addAttribute(new Attribute("keyProperty", introspectedColumn.getJavaProperty()));
+                    answer.addAttribute(new Attribute("keyColumn", introspectedColumn.getActualColumnName()));
                 } else {
                     answer.addElement(getSelectKey(introspectedColumn, gk));
                 }
             }
         }
-
         StringBuilder insertClause = new StringBuilder();
-
         insertClause.append("insert into ");
-        insertClause.append(introspectedTable
-            .getFullyQualifiedTableNameAtRuntime());
+        insertClause.append(introspectedTable.getFullyQualifiedTableNameAtRuntime());
         insertClause.append(" (");
-
         StringBuilder valuesClause = new StringBuilder();
         valuesClause.append("values (");
 
@@ -77,8 +60,7 @@ public class ExtendedInsertElementGenerator extends InsertElementGenerator {
         for (int i = 0; i < columns.size(); i++) {
             IntrospectedColumn introspectedColumn = columns.get(i);
 
-            insertClause.append(MyBatis3FormattingUtilities
-                .getEscapedColumnName(introspectedColumn));
+            insertClause.append(MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn));
 
             /**
              * 拼value部分
@@ -120,8 +102,7 @@ public class ExtendedInsertElementGenerator extends InsertElementGenerator {
             answer.addElement(new TextElement(clause));
         }
 
-        if (context.getPlugins().sqlMapInsertElementGenerated(answer,
-            introspectedTable)) {
+        if (context.getPlugins().sqlMapInsertElementGenerated(answer, introspectedTable)) {
             parentElement.addElement(answer);
         }
     }

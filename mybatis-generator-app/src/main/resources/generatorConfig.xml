@@ -34,20 +34,17 @@
             <property name="useJSR310Types" value="true"/>
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.yuntong.backend.entity"
-                            targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.yuntong.backend.entity" targetProject="src/main/java">
             <property name="rootClass" value="com.study.mybatis.entity.BaseEntity"/>
             <property name="generateBaseClass" value="true"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="mybatis.mapping"
-                         targetProject="src/main/resources">
+        <sqlMapGenerator targetPackage="mybatis.mapping" targetProject="src/main/resources">
+            <property name="simpleRecordClassName" value="true"/>
         </sqlMapGenerator>
 
         <!-- targetPackage：mapper接口生成的位置 -->
-        <javaClientGenerator type="generator.ExtendedJavaMapperGenerator"
-                             targetPackage="com.yuntong.backend.dao"
-                             targetProject="src/main/java">
+        <javaClientGenerator type="generator.ExtendedJavaMapperGenerator" targetPackage="com.yuntong.backend.dao" targetProject="src/main/java">
         </javaClientGenerator>
 
         <!-- 指定数据库表 -->
