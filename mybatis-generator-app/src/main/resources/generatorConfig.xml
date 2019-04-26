@@ -37,6 +37,7 @@
         <javaModelGenerator targetPackage="com.yuntong.backend.entity"
                             targetProject="src/main/java">
             <property name="rootClass" value="com.study.mybatis.entity.BaseEntity"/>
+            <property name="generateBaseClass" value="true"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="mybatis.mapping"
@@ -54,7 +55,7 @@
         <!--<table tableName="yt_role" domainObjectName="RoleBase">-->
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->
-        <table tableName="yt_user_role" domainObjectName="UserRoleBase"/>
+        <table tableName="yt_user_role" domainObjectName="UserRole"/>
         <!--<table tableName="yt_uri_source" domainObjectName="UriSourceBase" />-->
         <!--<table tableName="yt_role_source" domainObjectName="RoleSourceBase" />-->
         <!--<table tableName="yt_sys_log" domainObjectName="SysLogBase" />-->
