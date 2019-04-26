@@ -81,18 +81,18 @@ public class ExtendedInsertElementGenerator extends InsertElementGenerator {
                 .getEscapedColumnName(introspectedColumn));
 
             /**
+             * 拼value部分
              * 联合主键情况下拼接内联主键属性前缀
              * */
             if(primaryKeyColumns.size() > 1 && primaryKeyColumns.contains(introspectedColumn)) {
                 for(IntrospectedColumn keyColumn: primaryKeyColumns) {
                     if(keyColumn.getActualColumnName().equals(introspectedColumn.getActualColumnName())) {
-                        valuesClause.append(keyColumn.getJavaProperty(FieldConstants.UNION_KEY_PROPERTY_NAME.concat(".")));
+                        valuesClause.append(MyBatis3FormattingUtilities.getParameterClause(introspectedColumn, FieldConstants.UNION_KEY_PROPERTY_NAME.concat(".")));
                         break;
                     }
                 }
             } else {
-                valuesClause.append(MyBatis3FormattingUtilities
-                    .getParameterClause(introspectedColumn));
+                valuesClause.append(MyBatis3FormattingUtilities.getParameterClause(introspectedColumn));
             }
             if (i + 1 < columns.size()) {
                 insertClause.append(", ");

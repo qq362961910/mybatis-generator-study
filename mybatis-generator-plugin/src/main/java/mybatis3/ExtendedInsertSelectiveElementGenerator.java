@@ -96,7 +96,7 @@ public class ExtendedInsertSelectiveElementGenerator extends InsertSelectiveElem
                 insertNotNullElement.addElement(new TextElement(sb.toString()));
 
                 sb.setLength(0);
-                sb.append(keyColumn.getJavaProperty(FieldConstants.UNION_KEY_PROPERTY_NAME.concat(".")));
+                sb.append(MyBatis3FormattingUtilities.getParameterClause(keyColumn, FieldConstants.UNION_KEY_PROPERTY_NAME.concat(".")));
                 sb.append(',');
                 valuesNotNullElement.addElement(new TextElement(sb.toString()));
             }
