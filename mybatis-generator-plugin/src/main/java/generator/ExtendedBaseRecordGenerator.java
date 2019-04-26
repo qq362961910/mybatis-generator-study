@@ -35,7 +35,7 @@ public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
         if(generateBaseClass()) {
             int shortBaseRecordTypeIndex = baseRecordType.lastIndexOf(".") + 1;
             String shortBaseRecordType = baseRecordType.substring(shortBaseRecordTypeIndex);
-            String typeStr = baseRecordType.substring(0, shortBaseRecordTypeIndex).concat(PackageConstants.BASE_PACKAGE).concat(".").concat(shortBaseRecordType).concat(ClassConstants.BASE_CLASS_SUFFIX);
+            String typeStr = baseRecordType.substring(0, shortBaseRecordTypeIndex).concat(PackageConstants.BASE_RECORD_CLASS_PACKAGE).concat(".").concat(shortBaseRecordType).concat(ClassConstants.BASE_CLASS_SUFFIX);
             type = new FullyQualifiedJavaType(typeStr);
         } else {
             type = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());

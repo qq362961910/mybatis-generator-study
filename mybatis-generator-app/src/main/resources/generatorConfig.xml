@@ -37,6 +37,8 @@
         <javaModelGenerator targetPackage="com.yuntong.backend.entity" targetProject="src/main/java">
             <property name="rootClass" value="cn.t.base.mybatis.entity.BaseEntity"/>
             <property name="generateBaseClass" value="true"/>
+            <property name="exampleClassSeparate" value="true"/>
+            <property name="unionKeyClassSeparate" value="true"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="mybatis.mapping" targetProject="src/main/resources">
