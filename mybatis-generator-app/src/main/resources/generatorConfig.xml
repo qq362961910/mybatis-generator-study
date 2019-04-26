@@ -18,6 +18,8 @@
         <plugin type="plugin.MapperPlugin" />
         <!-- sql map 插件-->
         <plugin type="plugin.SqlMapPlugin" />
+        <!--覆盖xml文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
 
         <commentGenerator type="generator.ExtendedCommentGenerator"/>
 
