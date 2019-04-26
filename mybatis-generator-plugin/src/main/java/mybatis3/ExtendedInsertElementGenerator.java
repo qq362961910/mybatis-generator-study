@@ -86,9 +86,7 @@ public class ExtendedInsertElementGenerator extends InsertElementGenerator {
             if(primaryKeyColumns.size() > 1 && primaryKeyColumns.contains(introspectedColumn)) {
                 for(IntrospectedColumn keyColumn: primaryKeyColumns) {
                     if(keyColumn.getActualColumnName().equals(introspectedColumn.getActualColumnName())) {
-                        String prefix = FieldConstants.UNION_KEY_PROPERTY_NAME.concat(".");
-                        valuesClause.append(MyBatis3FormattingUtilities
-                            .getParameterClause(introspectedColumn, prefix));
+                        valuesClause.append(keyColumn.getJavaProperty(FieldConstants.UNION_KEY_PROPERTY_NAME.concat(".")));
                         break;
                     }
                 }
