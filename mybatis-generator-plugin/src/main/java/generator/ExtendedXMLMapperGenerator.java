@@ -3,6 +3,7 @@ package generator;
 import mybatis3.ExtendedInsertElementGenerator;
 import mybatis3.ExtendedInsertSelectiveElementGenerator;
 import mybatis3.ExtendedResultMapWithoutBLOBsElementGenerator;
+import mybatis3.ExtendedUpdateByPrimaryKeySelectiveElementGenerator;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.AbstractXmlElementGenerator;
@@ -41,5 +42,11 @@ public class ExtendedXMLMapperGenerator extends XMLMapperGenerator {
         }
     }
 
-
+    @Override
+    protected void addUpdateByPrimaryKeySelectiveElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateUpdateByPrimaryKeySelective()) {
+            AbstractXmlElementGenerator elementGenerator = new ExtendedUpdateByPrimaryKeySelectiveElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
 }
