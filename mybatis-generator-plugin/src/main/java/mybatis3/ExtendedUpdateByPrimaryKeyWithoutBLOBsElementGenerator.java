@@ -2,59 +2,64 @@ package mybatis3;
 
 import constants.FieldConstants;
 import org.mybatis.generator.api.IntrospectedColumn;
+import org.mybatis.generator.api.dom.OutputUtilities;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
-import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByPrimaryKeySelectiveElementGenerator;
+import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByPrimaryKeyWithoutBLOBsElementGenerator;
 
-public class ExtendedUpdateByPrimaryKeySelectiveElementGenerator extends UpdateByPrimaryKeySelectiveElementGenerator {
+import java.util.Iterator;
+
+public class ExtendedUpdateByPrimaryKeyWithoutBLOBsElementGenerator extends UpdateByPrimaryKeyWithoutBLOBsElementGenerator {
+
+    private boolean isSimple;
 
     @Override
     public void addElements(XmlElement parentElement) {
         XmlElement answer = new XmlElement("update");
 
         answer.addAttribute(new Attribute(
-            "id", introspectedTable.getUpdateByPrimaryKeySelectiveStatementId()));
-
-        String parameterType;
-
-        if (introspectedTable.getRules().generateRecordWithBLOBsClass()) {
-            parameterType = introspectedTable.getRecordWithBLOBsType();
-        } else {
-            parameterType = introspectedTable.getBaseRecordType();
-        }
-
+            "id", introspectedTable.getUpdateByPrimaryKeyStatementId()));
         answer.addAttribute(new Attribute("parameterType",
-            parameterType));
+            introspectedTable.getBaseRecordType()));
 
         context.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();
-
         sb.append("update ");
         sb.append(introspectedTable.getFullyQualifiedTableNameAtRuntime());
         answer.addElement(new TextElement(sb.toString()));
 
-        XmlElement dynamicElement = new XmlElement("set");
-        answer.addElement(dynamicElement);
+        // set up for first column
+        sb.setLength(0);
+        sb.append("set ");
 
-        for (IntrospectedColumn introspectedColumn : ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns())) {
-            sb.setLength(0);
-            sb.append(introspectedColumn.getJavaProperty());
-            sb.append(" != null");
-            XmlElement isNotNullElement = new XmlElement("if");
-            isNotNullElement.addAttribute(new Attribute("test", sb.toString()));
-            dynamicElement.addElement(isNotNullElement);
+        Iterator<IntrospectedColumn> iter;
+        if (isSimple) {
+            iter = ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns()).iterator();
+        } else {
+            iter = ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getBaseColumns()).iterator();
+        }
+        while (iter.hasNext()) {
+            IntrospectedColumn introspectedColumn = iter.next();
 
-            sb.setLength(0);
             sb.append(MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn));
             sb.append(" = ");
             sb.append(MyBatis3FormattingUtilities.getParameterClause(introspectedColumn));
-            sb.append(',');
 
-            isNotNullElement.addElement(new TextElement(sb.toString()));
+            if (iter.hasNext()) {
+                sb.append(',');
+            }
+
+            answer.addElement(new TextElement(sb.toString()));
+
+            // set up for the next column
+            if (iter.hasNext()) {
+                sb.setLength(0);
+                OutputUtilities.xmlIndent(sb, 1);
+            }
         }
 
         boolean and = false;
@@ -76,11 +81,15 @@ public class ExtendedUpdateByPrimaryKeySelectiveElementGenerator extends UpdateB
             }
             answer.addElement(new TextElement(sb.toString()));
         }
-
         if (context.getPlugins()
-            .sqlMapUpdateByPrimaryKeySelectiveElementGenerated(answer,
+            .sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(answer,
                 introspectedTable)) {
             parentElement.addElement(answer);
         }
-    }    
+    }
+
+    public ExtendedUpdateByPrimaryKeyWithoutBLOBsElementGenerator(boolean isSimple) {
+        super(isSimple);
+        this.isSimple = isSimple;
+    }
 }
