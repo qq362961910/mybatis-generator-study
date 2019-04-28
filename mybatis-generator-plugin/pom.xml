@@ -23,6 +23,11 @@
             <artifactId>mybatis-generator-core</artifactId>
             <version>${mybatis.generator.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.t</groupId>
+            <artifactId>common-util</artifactId>
+            <version>1.0.4-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

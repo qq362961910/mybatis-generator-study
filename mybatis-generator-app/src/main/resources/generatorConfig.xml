@@ -38,7 +38,7 @@
             <property name="rootClass" value="cn.t.base.mybatis.entity.BaseEntity"/>
             <property name="generateBaseClass" value="true"/>
             <property name="exampleClassSeparate" value="true"/>
-            <property name="unionKeyClassSeparate" value="true"/>
+            <property name="unionKeyClassSeparate" value="false"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="mybatis.mapping" targetProject="src/main/resources">
@@ -50,21 +50,21 @@
         </javaClientGenerator>
 
         <!-- 指定数据库表 -->
-        <table tableName="yt_user" domainObjectName="User"/>
+        <!--<table tableName="yt_user" domainObjectName="User"/>-->
         <table tableName="yt_role" domainObjectName="Role">
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
         <table tableName="yt_user_role" domainObjectName="UserRole"/>
-        <table tableName="yt_uri_source" domainObjectName="UriSource"/>
-        <table tableName="yt_role_source" domainObjectName="RoleSource"/>
-        <table tableName="yt_sys_log" domainObjectName="SysLog"/>
-        <table tableName="yt_storage" domainObjectName="Storage"/>
-        <table tableName="yt_contract" domainObjectName="Contract"/>
-        <table tableName="yt_contract_order" domainObjectName="ContractOrder"/>
-        <table tableName="yt_small_item" domainObjectName="SmallItem"/>
-        <table tableName="yt_small_item_attachment" domainObjectName="SmallItemAttachment"/>
-        <table tableName="yt_material" domainObjectName="Material"/>
-        <table tableName="yt_material_log" domainObjectName="MaterialLog"/>
+        <!--<table tableName="yt_uri_source" domainObjectName="UriSource"/>-->
+        <!--<table tableName="yt_role_source" domainObjectName="RoleSource"/>-->
+        <!--<table tableName="yt_sys_log" domainObjectName="SysLog"/>-->
+        <!--<table tableName="yt_storage" domainObjectName="Storage"/>-->
+        <!--<table tableName="yt_contract" domainObjectName="Contract"/>-->
+        <!--<table tableName="yt_contract_order" domainObjectName="ContractOrder"/>-->
+        <!--<table tableName="yt_small_item" domainObjectName="SmallItem"/>-->
+        <!--<table tableName="yt_small_item_attachment" domainObjectName="SmallItemAttachment"/>-->
+        <!--<table tableName="yt_material" domainObjectName="Material"/>-->
+        <!--<table tableName="yt_material_log" domainObjectName="MaterialLog"/>-->
 
     </context>
 </generatorConfiguration>

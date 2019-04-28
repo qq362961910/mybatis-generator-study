@@ -11,6 +11,7 @@ import org.mybatis.generator.api.dom.java.*;
 import org.mybatis.generator.codegen.RootClassInfo;
 import org.mybatis.generator.codegen.mybatis3.model.BaseRecordGenerator;
 import org.mybatis.generator.internal.util.JavaBeansUtil;
+import util.IntrospectedTableUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -196,8 +197,7 @@ public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
      * 如果是联合主键则取消实体类继承关系，将主键类添加到实体类中的字段中
      * */
     private void setUnionKeyAsField(TopLevelClass topLevelClass) {
-        List<IntrospectedColumn> keyColumns = introspectedTable.getPrimaryKeyColumns();
-        if (keyColumns != null && keyColumns.size() > 1) {
+        if (IntrospectedTableUtil.isUnionKeyTable(introspectedTable)) {
             String primaryKeyType = introspectedTable.getPrimaryKeyType();
             if (primaryKeyType != null) {
                 FullyQualifiedJavaType unionKeyClass = new FullyQualifiedJavaType(primaryKeyType);

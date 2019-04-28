@@ -1,11 +1,11 @@
 package plugin;
 
-import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
+import util.IntrospectedTableUtil;
 
 import java.util.List;
 
@@ -19,12 +19,11 @@ public class MapperPlugin extends PluginAdapter {
     public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         if(introspectedTable.hasPrimaryKeyColumns()) {
             //获取主键类型
-            List<IntrospectedColumn> introspectedColumns = introspectedTable.getPrimaryKeyColumns();
             String primaryKeyType;
-            if(introspectedColumns.size() == 1) {
-                primaryKeyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getFullyQualifiedName();
-            } else {
+            if(IntrospectedTableUtil.isUnionKeyTable(introspectedTable)) {
                 primaryKeyType = introspectedTable.getPrimaryKeyType();
+            } else {
+                primaryKeyType = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().getFullyQualifiedName();
             }
             //引入清理
             interfaze.getImportedTypes().clear();

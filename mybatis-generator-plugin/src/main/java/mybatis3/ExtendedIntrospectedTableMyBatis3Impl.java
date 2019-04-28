@@ -2,11 +2,13 @@ package mybatis3;
 
 import generator.ExtendedBaseRecordGenerator;
 import generator.ExtendedExampleGenerator;
+import generator.ExtendedPrimaryKeyGenerator;
 import org.mybatis.generator.api.ProgressCallback;
 import org.mybatis.generator.codegen.AbstractJavaGenerator;
 import org.mybatis.generator.codegen.mybatis3.IntrospectedTableMyBatis3Impl;
 import org.mybatis.generator.codegen.mybatis3.model.BaseRecordGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.ExampleGenerator;
+import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +23,7 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
         super.calculateJavaModelGenerators(warnings, progressCallback);
         if (getRules().generateBaseRecordClass()) {
             //替换默认添加的BaseRecordGenerator
-            javaModelGenerators.removeIf(javaGenerator -> javaGenerator instanceof BaseRecordGenerator || javaGenerator instanceof ExampleGenerator);
+            javaModelGenerators.removeIf(javaGenerator -> javaGenerator instanceof BaseRecordGenerator || javaGenerator instanceof ExampleGenerator || javaGenerator instanceof PrimaryKeyGenerator);
 
             //add baseRecordGenerator
             AbstractJavaGenerator baseRecordGenerator = new ExtendedBaseRecordGenerator();
@@ -32,6 +34,12 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
             AbstractJavaGenerator extendedExampleGenerator = new ExtendedExampleGenerator();
             initializeAbstractGenerator(extendedExampleGenerator, warnings, progressCallback);
             javaModelGenerators.add(extendedExampleGenerator);
+
+            //add extendedPrimaryKeyGenerator
+            AbstractJavaGenerator javaGenerator = new ExtendedPrimaryKeyGenerator();
+            initializeAbstractGenerator(javaGenerator, warnings,
+                progressCallback);
+            javaModelGenerators.add(javaGenerator);
         }
     }
 
