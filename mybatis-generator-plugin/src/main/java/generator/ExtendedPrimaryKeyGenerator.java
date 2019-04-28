@@ -1,6 +1,5 @@
 package generator;
 
-import constants.PackageConstants;
 import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.IntrospectedColumn;
@@ -12,9 +11,7 @@ import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mybatis.generator.internal.util.JavaBeansUtil.getJavaBeansField;
-import static org.mybatis.generator.internal.util.JavaBeansUtil.getJavaBeansGetter;
-import static org.mybatis.generator.internal.util.JavaBeansUtil.getJavaBeansSetter;
+import static org.mybatis.generator.internal.util.JavaBeansUtil.*;
 import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 public class ExtendedPrimaryKeyGenerator extends PrimaryKeyGenerator {
@@ -28,16 +25,7 @@ public class ExtendedPrimaryKeyGenerator extends PrimaryKeyGenerator {
         CommentGenerator commentGenerator = context.getCommentGenerator();
 
         String unionKeyType = introspectedTable.getPrimaryKeyType();
-        FullyQualifiedJavaType type;
-
-        if(unionKeyClassSeparate()) {
-            int shortBaseRecordTypeIndex = unionKeyType.lastIndexOf(".") + 1;
-            String shortUnionKeyType = unionKeyType.substring(shortBaseRecordTypeIndex);
-            String typeStr = unionKeyType.substring(0, shortBaseRecordTypeIndex).concat(PackageConstants.UNION_KEY_CLASS_PACKAGE).concat(".".concat(shortUnionKeyType));
-            type = new FullyQualifiedJavaType(typeStr);
-        } else {
-            type = new FullyQualifiedJavaType(unionKeyType);
-        }
+        FullyQualifiedJavaType type = new FullyQualifiedJavaType(unionKeyType);
 
         TopLevelClass topLevelClass = new TopLevelClass(type);
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
@@ -121,18 +109,6 @@ public class ExtendedPrimaryKeyGenerator extends PrimaryKeyGenerator {
         }
 
         topLevelClass.addMethod(method);
-    }
-
-    private boolean unionKeyClassSeparate() {
-        String str = context.getJavaModelGeneratorConfiguration().getProperty("unionKeyClassSeparate");
-        if(str == null || str.trim().length() == 0) {
-            return false;
-        }
-        try {
-            return Boolean.valueOf(str);
-        } catch (Exception e) {
-            return false;
-        }
     }
 
 }

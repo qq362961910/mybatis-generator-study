@@ -1,5 +1,6 @@
 package mybatis3;
 
+import constants.PackageConstants;
 import generator.ExtendedBaseRecordGenerator;
 import generator.ExtendedExampleGenerator;
 import generator.ExtendedPrimaryKeyGenerator;
@@ -9,6 +10,7 @@ import org.mybatis.generator.codegen.mybatis3.IntrospectedTableMyBatis3Impl;
 import org.mybatis.generator.codegen.mybatis3.model.BaseRecordGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.ExampleGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
+import util.IntrospectedTableUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,23 +25,31 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
         super.calculateJavaModelGenerators(warnings, progressCallback);
         if (getRules().generateBaseRecordClass()) {
             //替换默认添加的BaseRecordGenerator
-            javaModelGenerators.removeIf(javaGenerator -> javaGenerator instanceof BaseRecordGenerator || javaGenerator instanceof ExampleGenerator || javaGenerator instanceof PrimaryKeyGenerator);
-
+            javaModelGenerators.removeIf(javaGenerator -> javaGenerator instanceof BaseRecordGenerator);
             //add baseRecordGenerator
             AbstractJavaGenerator baseRecordGenerator = new ExtendedBaseRecordGenerator();
             initializeAbstractGenerator(baseRecordGenerator, warnings, progressCallback);
             javaModelGenerators.add(baseRecordGenerator);
-
-            //add extendedExampleGenerator
+        }
+        if (getRules().generateExampleClass()) {
+            javaModelGenerators.removeIf(javaGenerator -> javaGenerator instanceof ExampleGenerator);
+            //替换默认添加的ExampleGenerator
             AbstractJavaGenerator extendedExampleGenerator = new ExtendedExampleGenerator();
             initializeAbstractGenerator(extendedExampleGenerator, warnings, progressCallback);
             javaModelGenerators.add(extendedExampleGenerator);
-
-            //add extendedPrimaryKeyGenerator
-            AbstractJavaGenerator javaGenerator = new ExtendedPrimaryKeyGenerator();
-            initializeAbstractGenerator(javaGenerator, warnings,
-                progressCallback);
-            javaModelGenerators.add(javaGenerator);
+        }
+        if (getRules().generatePrimaryKeyClass()) {
+            if(IntrospectedTableUtil.isUnionKeyTable(this)) {
+                javaModelGenerators.removeIf(javaGenerator -> javaGenerator instanceof PrimaryKeyGenerator);
+                //替换默认添加的PrimaryKeyGenerator
+                AbstractJavaGenerator javaGenerator = new ExtendedPrimaryKeyGenerator();
+                initializeAbstractGenerator(javaGenerator, warnings,
+                    progressCallback);
+                javaModelGenerators.add(javaGenerator);
+            }
+        }
+        if (getRules().generateRecordWithBLOBsClass()) {
+            //do nothing now
         }
     }
 
@@ -58,9 +68,74 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
     }
 
     @Override
+    protected void calculateModelAttributes() {
+        String pakkage = calculateJavaModelPackage();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(pakkage);
+        sb.append('.');
+        if(unionKeyClassSeparate()) {
+            sb.append(PackageConstants.UNION_KEY_CLASS_PACKAGE);
+            sb.append('.');
+        }
+        sb.append(fullyQualifiedTable.getDomainObjectName());
+        sb.append("Key"); //$NON-NLS-1$
+        setPrimaryKeyType(sb.toString());
+
+        sb.setLength(0);
+        sb.append(pakkage);
+        sb.append('.');
+        sb.append(fullyQualifiedTable.getDomainObjectName());
+        setBaseRecordType(sb.toString());
+
+        sb.setLength(0);
+        sb.append(pakkage);
+        sb.append('.');
+        sb.append(fullyQualifiedTable.getDomainObjectName());
+        sb.append("WithBLOBs"); //$NON-NLS-1$
+        setRecordWithBLOBsType(sb.toString());
+
+        sb.setLength(0);
+        sb.append(pakkage);
+        sb.append('.');
+        if(exampleClassSeparate()) {
+            sb.append(PackageConstants.EXAMPLE_CLASS_PACKAGE);
+            sb.append('.');
+        }
+        sb.append(fullyQualifiedTable.getDomainObjectName());
+        sb.append("Example"); //$NON-NLS-1$
+        setExampleType(sb.toString());
+
+    }
+
+    @Override
     protected void calculateXmlAttributes() {
         super.calculateXmlAttributes();
         setUnionKeyMapMapId("UnionKeyMap");
+    }
+
+    private boolean exampleClassSeparate() {
+        String str = context.getJavaModelGeneratorConfiguration().getProperty("exampleClassSeparate");
+        if(str == null || str.trim().length() == 0) {
+            return false;
+        }
+        try {
+            return Boolean.valueOf(str);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean unionKeyClassSeparate() {
+        String str = context.getJavaModelGeneratorConfiguration().getProperty("unionKeyClassSeparate");
+        if(str == null || str.trim().length() == 0) {
+            return false;
+        }
+        try {
+            return Boolean.valueOf(str);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void setUnionKeyMapMapId(String s) {
@@ -74,4 +149,5 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
     protected enum ExtendedInternalAttribute {
         ATTR_UNION_KEY_MAP_ID
     }
+
 }

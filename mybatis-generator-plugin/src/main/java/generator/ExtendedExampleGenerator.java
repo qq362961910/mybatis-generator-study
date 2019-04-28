@@ -1,6 +1,5 @@
 package generator;
 
-import constants.PackageConstants;
 import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.IntrospectedColumn;
@@ -29,15 +28,7 @@ public class ExtendedExampleGenerator extends ExampleGenerator {
         CommentGenerator commentGenerator = context.getCommentGenerator();
 
         String exampleType = introspectedTable.getExampleType();
-        FullyQualifiedJavaType type;
-        if(exampleClassSeparate()) {
-            int shortBaseRecordTypeIndex = exampleType.lastIndexOf(".") + 1;
-            String shortExampleType = exampleType.substring(shortBaseRecordTypeIndex);
-            String typeStr = exampleType.substring(0, shortBaseRecordTypeIndex).concat(PackageConstants.EXAMPLE_CLASS_PACKAGE).concat(".".concat(shortExampleType));
-            type = new FullyQualifiedJavaType(typeStr);
-        } else {
-            type = new FullyQualifiedJavaType(exampleType);
-        }
+        FullyQualifiedJavaType type = new FullyQualifiedJavaType(exampleType);
         TopLevelClass topLevelClass = new TopLevelClass(type);
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
         commentGenerator.addJavaFileComment(topLevelClass);
@@ -1029,17 +1020,5 @@ public class ExtendedExampleGenerator extends ExampleGenerator {
         innerClass.addMethod(method);
 
         return answer;
-    }
-
-    private boolean exampleClassSeparate() {
-        String str = context.getJavaModelGeneratorConfiguration().getProperty("exampleClassSeparate");
-        if(str == null || str.trim().length() == 0) {
-            return false;
-        }
-        try {
-            return Boolean.valueOf(str);
-        } catch (Exception e) {
-            return false;
-        }
     }
 }
