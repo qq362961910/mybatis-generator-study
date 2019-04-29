@@ -2,7 +2,9 @@ package constants;
 
 public class XmlMapConstants {
 
-    public static final String UNION_KEY_MAP = "UnionKeyMap";
+    /*************************************************  extended element  *************************************************/
+    public static final String EXT_UNION_KEY_MAP = "UnionKeyMap";
+    public static final String EXT_SELECT_ALL = "selectAll";
 
     /*************************************************  element  *************************************************/
     public static final String ELEMENT_ASSOCIATION = "association";

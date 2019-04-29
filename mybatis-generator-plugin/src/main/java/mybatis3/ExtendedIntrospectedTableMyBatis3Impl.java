@@ -81,7 +81,7 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
             sb.append('.');
         }
         sb.append(fullyQualifiedTable.getDomainObjectName());
-        sb.append("Key"); //$NON-NLS-1$
+        sb.append("Key");
         setPrimaryKeyType(sb.toString());
 
         sb.setLength(0);
@@ -94,7 +94,7 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
         sb.append(pakkage);
         sb.append('.');
         sb.append(fullyQualifiedTable.getDomainObjectName());
-        sb.append("WithBLOBs"); //$NON-NLS-1$
+        sb.append("WithBLOBs");
         setRecordWithBLOBsType(sb.toString());
 
         sb.setLength(0);
@@ -105,7 +105,7 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
             sb.append('.');
         }
         sb.append(fullyQualifiedTable.getDomainObjectName());
-        sb.append("Example"); //$NON-NLS-1$
+        sb.append("Example");
         setExampleType(sb.toString());
 
     }
@@ -113,7 +113,7 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
     @Override
     protected void calculateXmlAttributes() {
         super.calculateXmlAttributes();
-        setUnionKeyMapId(XmlMapConstants.UNION_KEY_MAP);
+        setUnionKeyMapId(XmlMapConstants.EXT_UNION_KEY_MAP);
     }
 
     public void setUnionKeyMapId(String s) {

@@ -1,6 +1,7 @@
 package generator;
 
 import mybatis3.*;
+import mybatis3.ext.SelectAllElementGenerator;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.*;
@@ -19,7 +20,9 @@ public class ExtendedXMLMapperGenerator extends XMLMapperGenerator {
             introspectedTable.setBaseRecordType(simplyClassName(introspectedTable.getBaseRecordType()));
             introspectedTable.setExampleType(simplyClassName(introspectedTable.getExampleType()));
         }
-        return super.getSqlMapElement();
+        XmlElement answer = super.getSqlMapElement();
+        addSelectAllElement(answer);
+        return answer;
     }
 
     @Override
@@ -60,6 +63,11 @@ public class ExtendedXMLMapperGenerator extends XMLMapperGenerator {
             AbstractXmlElementGenerator elementGenerator = (IntrospectedTableUtil.isUnionKeyTable(introspectedTable) ? new ExtendedUpdateByPrimaryKeySelectiveElementGenerator() : new UpdateByPrimaryKeySelectiveElementGenerator());
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
+    }
+
+    private void addSelectAllElement(XmlElement parentElement) {
+        AbstractXmlElementGenerator elementGenerator =  new SelectAllElementGenerator();
+        initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
     private boolean simpleRecordClassName() {
