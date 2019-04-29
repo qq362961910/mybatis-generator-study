@@ -15,13 +15,8 @@
     <dependencies>
         <dependency>
             <groupId>cn.t</groupId>
-            <artifactId>base-module-mybatis-entity</artifactId>
-            <version>1.0.0-RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.t</groupId>
             <artifactId>base-module-mybatis-dao</artifactId>
-            <version>1.0.0-RELEASE</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
