@@ -1,6 +1,8 @@
 package mybatis3;
 
 import constants.PackageConstants;
+import constants.XmlMapConstants;
+import enums.ExtendedIntrospectedTableInternalAttribute;
 import generator.ExtendedBaseRecordGenerator;
 import generator.ExtendedExampleGenerator;
 import generator.ExtendedPrimaryKeyGenerator;
@@ -18,7 +20,7 @@ import java.util.Map;
 
 public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBatis3Impl {
 
-    protected Map<ExtendedInternalAttribute, String> extendedInternalAttributes = new HashMap<>();
+    private Map<ExtendedIntrospectedTableInternalAttribute, String> extendedInternalAttributes = new HashMap<>();
 
     @Override
     protected void calculateJavaModelGenerators(List<String> warnings, ProgressCallback progressCallback) {
@@ -59,7 +61,7 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
      * */
     @Override
     public void initialize() {
-//        if(primaryKeyColumns != null && primaryKeyColumns.size() > 1) {
+//        if(IntrospectedTableUtil.isUnionKeyTable(this)) {
 //            for(IntrospectedColumn column: primaryKeyColumns) {
 //                column.setJavaProperty(FieldConstants.UNION_KEY_PROPERTY_NAME.concat(".").concat(column.getJavaProperty()));
 //            }
@@ -74,7 +76,7 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
         StringBuilder sb = new StringBuilder();
         sb.append(pakkage);
         sb.append('.');
-        if(unionKeyClassSeparate()) {
+        if(IntrospectedTableUtil.unionKeyClassSeparate(context.getJavaModelGeneratorConfiguration())) {
             sb.append(PackageConstants.UNION_KEY_CLASS_PACKAGE);
             sb.append('.');
         }
@@ -98,7 +100,7 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
         sb.setLength(0);
         sb.append(pakkage);
         sb.append('.');
-        if(exampleClassSeparate()) {
+        if(IntrospectedTableUtil.exampleClassSeparate(context.getJavaModelGeneratorConfiguration())) {
             sb.append(PackageConstants.EXAMPLE_CLASS_PACKAGE);
             sb.append('.');
         }
@@ -111,43 +113,15 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
     @Override
     protected void calculateXmlAttributes() {
         super.calculateXmlAttributes();
-        setUnionKeyMapMapId("UnionKeyMap");
+        setUnionKeyMapId(XmlMapConstants.UNION_KEY_MAP);
     }
 
-    private boolean exampleClassSeparate() {
-        String str = context.getJavaModelGeneratorConfiguration().getProperty("exampleClassSeparate");
-        if(str == null || str.trim().length() == 0) {
-            return false;
-        }
-        try {
-            return Boolean.valueOf(str);
-        } catch (Exception e) {
-            return false;
-        }
+    public void setUnionKeyMapId(String s) {
+        extendedInternalAttributes.put(ExtendedIntrospectedTableInternalAttribute.ATTR_UNION_KEY_MAP_ID, s);
     }
 
-    private boolean unionKeyClassSeparate() {
-        String str = context.getJavaModelGeneratorConfiguration().getProperty("unionKeyClassSeparate");
-        if(str == null || str.trim().length() == 0) {
-            return false;
-        }
-        try {
-            return Boolean.valueOf(str);
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public void setUnionKeyMapMapId(String s) {
-        extendedInternalAttributes.put(ExtendedInternalAttribute.ATTR_UNION_KEY_MAP_ID, s);
-    }
-
-    public String getUnionKeyMapMapId() {
-        return extendedInternalAttributes.get(ExtendedInternalAttribute.ATTR_UNION_KEY_MAP_ID);
-    }
-
-    protected enum ExtendedInternalAttribute {
-        ATTR_UNION_KEY_MAP_ID
+    public String getUnionKeyMapId() {
+        return extendedInternalAttributes.get(ExtendedIntrospectedTableInternalAttribute.ATTR_UNION_KEY_MAP_ID);
     }
 
 }

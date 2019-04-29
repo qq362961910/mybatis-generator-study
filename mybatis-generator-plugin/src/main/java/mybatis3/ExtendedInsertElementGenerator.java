@@ -11,6 +11,7 @@ import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.InsertElementGenerator;
 import org.mybatis.generator.config.GeneratedKey;
+import util.IntrospectedTableUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,16 +58,16 @@ public class ExtendedInsertElementGenerator extends InsertElementGenerator {
         List<String> valuesClauses = new ArrayList<>();
         List<IntrospectedColumn> columns = ListUtilities.removeIdentityAndGeneratedAlwaysColumns(introspectedTable.getAllColumns());
         List<IntrospectedColumn> primaryKeyColumns = introspectedTable.getPrimaryKeyColumns();
+        boolean unionKeyTable = IntrospectedTableUtil.isUnionKeyTable(introspectedTable);
         for (int i = 0; i < columns.size(); i++) {
             IntrospectedColumn introspectedColumn = columns.get(i);
 
             insertClause.append(MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn));
-
             /**
              * 拼value部分
              * 联合主键情况下拼接内联主键属性前缀
              * */
-            if(primaryKeyColumns.size() > 1 && primaryKeyColumns.contains(introspectedColumn)) {
+            if(unionKeyTable && primaryKeyColumns.contains(introspectedColumn)) {
                 for(IntrospectedColumn keyColumn: primaryKeyColumns) {
                     if(keyColumn.getActualColumnName().equals(introspectedColumn.getActualColumnName())) {
                         valuesClause.append(MyBatis3FormattingUtilities.getParameterClause(introspectedColumn, FieldConstants.UNION_KEY_PROPERTY_NAME.concat(".")));

@@ -8,6 +8,7 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByPrimaryKeySelectiveElementGenerator;
+import util.IntrospectedTableUtil;
 
 public class ExtendedUpdateByPrimaryKeySelectiveElementGenerator extends UpdateByPrimaryKeySelectiveElementGenerator {
 
@@ -58,7 +59,7 @@ public class ExtendedUpdateByPrimaryKeySelectiveElementGenerator extends UpdateB
         }
 
         boolean and = false;
-        boolean isUnionKey = introspectedTable.getPrimaryKeyColumns().size() > 1;
+        boolean isUnionKey = IntrospectedTableUtil.isUnionKeyTable(introspectedTable);
         for (IntrospectedColumn introspectedColumn : introspectedTable.getPrimaryKeyColumns()) {
             sb.setLength(0);
             if (and) {

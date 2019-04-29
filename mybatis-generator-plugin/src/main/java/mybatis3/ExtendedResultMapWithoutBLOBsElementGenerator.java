@@ -1,12 +1,14 @@
 package mybatis3;
 
 
+import cn.t.util.common.CollectionUtil;
 import constants.FieldConstants;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.ResultMapWithoutBLOBsElementGenerator;
+import util.IntrospectedTableUtil;
 
 import java.util.List;
 
@@ -52,16 +54,14 @@ public class ExtendedResultMapWithoutBLOBsElementGenerator extends ResultMapWith
         List<IntrospectedColumn> keyColumns = introspectedTable.getPrimaryKeyColumns();
         XmlElement unionKeyResult = null;
         //联合主键情况
-        if(keyColumns.size() > 1) {
+        if(CollectionUtil.isSizeEqualAndGreaterThan(keyColumns, 2)) {
             //生成主键映射map
             addUnionKeyResultMap(parentElement);
             //BaseResultMap关联主键Map
             XmlElement resultElement = new XmlElement("association");
             resultElement.addAttribute(new Attribute("property", FieldConstants.UNION_KEY_PROPERTY_NAME));
-            if(introspectedTable instanceof ExtendedIntrospectedTableMyBatis3Impl) {
-                ExtendedIntrospectedTableMyBatis3Impl extendedIntrospectedTableMyBatis3 = (ExtendedIntrospectedTableMyBatis3Impl)introspectedTable;
-                resultElement.addAttribute(new Attribute("resultMap", extendedIntrospectedTableMyBatis3.getUnionKeyMapMapId()));
-            }
+            String keyMapId = IntrospectedTableUtil.getUnionKeyMapId(introspectedTable);
+            resultElement.addAttribute(new Attribute("resultMap", keyMapId));
             unionKeyResult = resultElement;
         } else {
             for (IntrospectedColumn introspectedColumn : introspectedTable.getPrimaryKeyColumns()) {
@@ -147,9 +147,8 @@ public class ExtendedResultMapWithoutBLOBsElementGenerator extends ResultMapWith
     private void addUnionKeyResultMap(XmlElement parentElement) {
         List<IntrospectedColumn> keyColumns = introspectedTable.getPrimaryKeyColumns();
         if(introspectedTable instanceof ExtendedIntrospectedTableMyBatis3Impl) {
-            ExtendedIntrospectedTableMyBatis3Impl extendedIntrospectedTableMyBatis3 = (ExtendedIntrospectedTableMyBatis3Impl)introspectedTable;
             XmlElement answer = new XmlElement("resultMap");
-            answer.addAttribute(new Attribute("id", extendedIntrospectedTableMyBatis3.getUnionKeyMapMapId()));
+            answer.addAttribute(new Attribute("id", IntrospectedTableUtil.getUnionKeyMapId(introspectedTable)));
             answer.addAttribute(new Attribute("type", introspectedTable.getPrimaryKeyType()));
             addBaseColumnResultToMap(keyColumns, answer);
             parentElement.addElement(answer);

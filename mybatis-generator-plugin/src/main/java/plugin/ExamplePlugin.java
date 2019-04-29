@@ -3,12 +3,12 @@ package plugin;
 import constants.ClassConstants;
 import constants.FieldConstants;
 import constants.SqlConstants;
-import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.InnerClass;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
+import util.IntrospectedTableUtil;
 
 import java.util.List;
 
@@ -24,8 +24,7 @@ public class ExamplePlugin extends PluginAdapter {
      * */
     @Override
     public boolean modelExampleClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        List<IntrospectedColumn> keyColumns = introspectedTable.getPrimaryKeyColumns();
-        if(keyColumns != null && keyColumns.size() > 1) {
+        if(IntrospectedTableUtil.isUnionKeyTable(introspectedTable)) {
             List<InnerClass> innerClassList = topLevelClass.getInnerClasses();
             for(InnerClass innerClass: innerClassList) {
                 String fullyQualifiedName = innerClass.getType().getFullyQualifiedName();

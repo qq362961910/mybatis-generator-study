@@ -10,6 +10,7 @@ import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.InsertSelectiveElementGenerator;
 import org.mybatis.generator.config.GeneratedKey;
+import util.IntrospectedTableUtil;
 
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class ExtendedInsertSelectiveElementGenerator extends InsertSelectiveElem
         /**
          * 联合主键情况下从introspectedColumnList删除掉相关主键列，并提前最sql拼接处理
          * */
-        if(primaryKeyColumns.size() > 1) {
+        if(IntrospectedTableUtil.isUnionKeyTable(introspectedTable)) {
             introspectedColumnList.removeIf(primaryKeyColumns::contains);
             //设置联合主键
             sb.setLength(0);
