@@ -36,7 +36,8 @@
 
         <javaModelGenerator targetPackage="com.yuntong.backend.entity" targetProject="src/main/java">
             <property name="rootClass" value="cn.t.base.mybatis.entity.BaseEntity"/>
-            <property name="generateBaseClass" value="true"/>
+            <property name="generateBaseRecordClass" value="true"/>
+            <property name="generateBaseExampleClass" value="true"/>
             <property name="exampleClassSeparate" value="true"/>
             <property name="unionKeyClassSeparate" value="true"/>
         </javaModelGenerator>
@@ -53,10 +54,10 @@
         <!--<table tableName="yt_user" domainObjectName="User">-->
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->
-        <table tableName="yt_role" domainObjectName="Role">
-            <generatedKey column="id" sqlStatement="JDBC"/>
-        </table>
-        <table tableName="yt_user_role" domainObjectName="UserRole"/>
+        <!--<table tableName="yt_role" domainObjectName="Role">-->
+            <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
+        <!--</table>-->
+        <!--<table tableName="yt_user_role" domainObjectName="UserRole"/>-->
         <!--<table tableName="yt_uri_source" domainObjectName="UriSource">-->
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->
@@ -73,9 +74,9 @@
         <!--<table tableName="yt_contract_order" domainObjectName="ContractOrder">-->
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->
-        <!--<table tableName="yt_small_item" domainObjectName="SmallItem">-->
-            <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
-        <!--</table>-->
+        <table tableName="yt_small_item" domainObjectName="SmallItem">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
         <!--<table tableName="yt_small_item_attachment" domainObjectName="SmallItemAttachment">-->
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->

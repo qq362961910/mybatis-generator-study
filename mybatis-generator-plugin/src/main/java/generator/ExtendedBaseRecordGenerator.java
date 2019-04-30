@@ -12,6 +12,7 @@ import org.mybatis.generator.codegen.RootClassInfo;
 import org.mybatis.generator.codegen.mybatis3.model.BaseRecordGenerator;
 import org.mybatis.generator.internal.util.JavaBeansUtil;
 import util.IntrospectedTableUtil;
+import util.JavaModelGeneratorUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -33,7 +34,7 @@ public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
         CommentGenerator commentGenerator = context.getCommentGenerator();
         String baseRecordType = introspectedTable.getBaseRecordType();
         FullyQualifiedJavaType type;
-        if(generateBaseClass()) {
+        if(JavaModelGeneratorUtil.generateBaseRecordClass(context.getJavaModelGeneratorConfiguration())) {
             int shortBaseRecordTypeIndex = baseRecordType.lastIndexOf(".") + 1;
             String shortBaseRecordType = baseRecordType.substring(shortBaseRecordTypeIndex);
             String typeStr = baseRecordType.substring(0, shortBaseRecordTypeIndex).concat(PackageConstants.BASE_RECORD_CLASS_PACKAGE).concat(".").concat(shortBaseRecordType).concat(ClassConstants.BASE_CLASS_SUFFIX);
@@ -93,7 +94,7 @@ public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
             answer.add(topLevelClass);
 
             //如果补充真正要使用的类
-            if(generateBaseClass()) {
+            if(JavaModelGeneratorUtil.generateBaseRecordClass(context.getJavaModelGeneratorConfiguration())) {
                 TopLevelClass subTopLevelClass = new TopLevelClass(baseRecordType);
                 subTopLevelClass.setVisibility(JavaVisibility.PUBLIC);
                 subTopLevelClass.setSuperClass(type);
@@ -151,29 +152,29 @@ public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
         }
 
         StringBuilder sb = new StringBuilder();
-        List<String> superColumns = new LinkedList<String>();
+        List<String> superColumns = new LinkedList<>();
         if (introspectedTable.getRules().generatePrimaryKeyClass()) {
             boolean comma = false;
-            sb.append("super("); //$NON-NLS-1$
+            sb.append("super(");
             for (IntrospectedColumn introspectedColumn : introspectedTable.getPrimaryKeyColumns()) {
                 if (comma) {
-                    sb.append(", "); //$NON-NLS-1$
+                    sb.append(", ");
                 } else {
                     comma = true;
                 }
                 sb.append(introspectedColumn.getJavaProperty());
                 superColumns.add(introspectedColumn.getActualColumnName());
             }
-            sb.append(");"); //$NON-NLS-1$
+            sb.append(");");
             method.addBodyLine(sb.toString());
         }
 
         for (IntrospectedColumn introspectedColumn : constructorColumns) {
             if (!superColumns.contains(introspectedColumn.getActualColumnName())) {
                 sb.setLength(0);
-                sb.append("this."); //$NON-NLS-1$
+                sb.append("this.");
                 sb.append(introspectedColumn.getJavaProperty());
-                sb.append(" = "); //$NON-NLS-1$
+                sb.append(" = ");
                 sb.append(introspectedColumn.getJavaProperty());
                 sb.append(';');
                 method.addBodyLine(sb.toString());
@@ -227,28 +228,15 @@ public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
                 setter.addParameter(new Parameter(unionKeyClass, unionKeyField.getName()));
                 setter.setName(JavaBeansUtil.getSetterMethodName(unionKeyField.getName()));
                 StringBuilder setterBuilder = new StringBuilder();
-                setterBuilder.append("this."); //$NON-NLS-1$
+                setterBuilder.append("this.");
                 setterBuilder.append(unionKeyField.getName());
-                setterBuilder.append(" = "); //$NON-NLS-1$
+                setterBuilder.append(" = ");
                 setterBuilder.append(unionKeyField.getName());
                 setterBuilder.append(';');
                 setter.addBodyLine(setterBuilder.toString());
                 topLevelClass.addMethod(setter);
-
             }
         }
     }
 
-
-    private boolean generateBaseClass() {
-        String str = context.getJavaModelGeneratorConfiguration().getProperty("generateBaseClass");
-        if(str == null || str.trim().length() == 0) {
-            return false;
-        }
-        try {
-            return Boolean.valueOf(str);
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }
