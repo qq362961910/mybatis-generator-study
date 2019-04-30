@@ -17,8 +17,8 @@ public class JavaModelGeneratorUtil {
         }
     }
 
-    public static boolean generateBaseExampleClass(JavaModelGeneratorConfiguration javaModelGeneratorConfiguration) {
-        String str = javaModelGeneratorConfiguration.getProperty(JavaModelGeneratorConstants.GENERATE_BASE_EXAMPLE_CLASS);
+    public static boolean extendBaseExampleClass(JavaModelGeneratorConfiguration javaModelGeneratorConfiguration) {
+        String str = javaModelGeneratorConfiguration.getProperty(JavaModelGeneratorConstants.EXTEND_BASE_EXAMPLE_CLASS);
         if(str == null || str.trim().length() == 0) {
             return false;
         }

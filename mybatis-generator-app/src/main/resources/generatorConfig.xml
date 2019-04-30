@@ -37,7 +37,7 @@
         <javaModelGenerator targetPackage="com.yuntong.backend.entity" targetProject="src/main/java">
             <property name="rootClass" value="cn.t.base.mybatis.entity.BaseEntity"/>
             <property name="generateBaseRecordClass" value="true"/>
-            <property name="generateBaseExampleClass" value="true"/>
+            <property name="extendBaseExampleClass" value="true"/>
             <property name="exampleClassSeparate" value="true"/>
             <property name="unionKeyClassSeparate" value="true"/>
         </javaModelGenerator>
