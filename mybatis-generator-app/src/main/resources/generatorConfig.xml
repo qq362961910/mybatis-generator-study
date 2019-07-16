@@ -31,7 +31,16 @@
         </jdbcConnection>
 
         <javaTypeResolver>
+            <!--使用Jdk8的日期类型-->
             <property name="useJSR310Types" value="true"/>
+            <!--当该属性为true时， DECIMAL or NUMERIC一定被解析为java.math.BigDecimal-->
+            <!--当该属性为false时:
+              1.小数部分不为0时，或者长度超过18位时会被解析为java.math.BigDecimal
+              2.小数部分为0时， 长度为10-18位时会被解析为Long
+              3.小数部分为0时， 长度为5-9位时会被解析为Integer
+              4.小数部分为0时， 长度小于5位时会被解析为Short
+             -->
+            <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
 
         <javaModelGenerator targetPackage="com.yuntong.backend.entity" targetProject="src/main/java">
@@ -74,17 +83,31 @@
         <!--<table tableName="yt_contract_order" domainObjectName="ContractOrder">-->
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->
-        <table tableName="yt_small_item" domainObjectName="SmallItem">
-            <generatedKey column="id" sqlStatement="JDBC"/>
-        </table>
+        <!--<table tableName="yt_small_item" domainObjectName="SmallItem">-->
+            <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
+        <!--</table>-->
         <!--<table tableName="yt_small_item_attachment" domainObjectName="SmallItemAttachment">-->
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->
         <!--<table tableName="yt_material" domainObjectName="Material">-->
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->
-        <!--<table tableName="yt_material_log" domainObjectName="MaterialLog">-->
+        <!--<table tableName="yt_material_log" domainObjectName="MaterialLog">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>-->
+        <!--<table tableName="yt_instrument" domainObjectName="Instrument">-->
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->
+        <!--<table tableName="yt_record_attachment" domainObjectName="RecordAttachment">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>-->
+        <!--<table tableName="yt_contract_order_payment_record" domainObjectName="ContractOrderPaymentRecord">-->
+            <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
+        <!--</table>-->
+
+        <table tableName="xf_device_analog" domainObjectName="DeviceAnalog">
+            <generatedKey column="device_id" sqlStatement="JDBC"/>
+        </table>
+
     </context>
 </generatorConfiguration>

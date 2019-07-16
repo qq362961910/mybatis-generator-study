@@ -38,6 +38,11 @@
                         <version>${mysql.connector.version}</version>
                     </dependency>
                     <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc7</artifactId>
+                        <version>12.1.0.2</version>
+                    </dependency>
+                    <dependency>
                         <groupId>study</groupId>
                         <artifactId>mybatis-generator-plugin</artifactId>
                         <version>${app.version}</version>
