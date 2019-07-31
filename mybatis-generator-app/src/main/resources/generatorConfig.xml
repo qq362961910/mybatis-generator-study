@@ -70,7 +70,7 @@
         <!--<table tableName="yt_uri_source" domainObjectName="UriSource">-->
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->
-        <!--<table tableName="yt_role_source" domainObjectName="RoleSource"/>-->
+        <table tableName="yt_role_source" domainObjectName="RoleSource"/>
         <!--<table tableName="yt_sys_log" domainObjectName="SysLog">-->
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->
@@ -105,9 +105,9 @@
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->
 
-        <table tableName="xf_device_analog" domainObjectName="DeviceAnalog">
+        <!--<table tableName="xf_device_analog" domainObjectName="DeviceAnalog">
             <generatedKey column="device_id" sqlStatement="JDBC"/>
-        </table>
+        </table>-->
 
     </context>
 </generatorConfiguration>

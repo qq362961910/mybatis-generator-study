@@ -25,7 +25,7 @@ public class IntrospectedTableUtil {
     public static String getUnionKeyMapId(IntrospectedTable introspectedTable) {
         ExtendedIntrospectedTableMyBatis3Impl introspectedTableMyBatis3 = convertToExtendedIntrospectedTableMyBatis3Impl(introspectedTable);
         if(introspectedTable != null) {
-            introspectedTableMyBatis3.getUnionKeyMapId();
+            return introspectedTableMyBatis3.getUnionKeyMapId();
         }
         return null;
     }

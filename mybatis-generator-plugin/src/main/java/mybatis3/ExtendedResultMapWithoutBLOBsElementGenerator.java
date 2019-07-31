@@ -52,17 +52,33 @@ public class ExtendedResultMapWithoutBLOBsElementGenerator extends ResultMapWith
 
     private void addResultMapElements(XmlElement answer) {
         List<IntrospectedColumn> keyColumns = introspectedTable.getPrimaryKeyColumns();
-        XmlElement unionKeyResult = null;
         //联合主键情况
         if(CollectionUtil.isSizeEqualAndGreaterThan(keyColumns, 2)) {
             //生成主键映射map
             addUnionKeyResultMap(parentElement);
-            //BaseResultMap关联主键Map
-            XmlElement resultElement = new XmlElement("association");
-            resultElement.addAttribute(new Attribute("property", FieldConstants.UNION_KEY_PROPERTY_NAME));
-            String keyMapId = IntrospectedTableUtil.getUnionKeyMapId(introspectedTable);
-            resultElement.addAttribute(new Attribute("resultMap", keyMapId));
-            unionKeyResult = resultElement;
+            //BaseResultMap关联主键Map.在查询时有bug,实际查询数量与封装对象的数量不一致,生成xml结果如下:
+//            <resultMap id="BaseResultMap" type="RoleSource">
+//              <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+//              <association property="unionKey" resultMap="UnionKeyMap" />
+//            </resultMap>
+//            XmlElement resultElement = new XmlElement("association");
+//            resultElement.addAttribute(new Attribute("property", FieldConstants.UNION_KEY_PROPERTY_NAME));
+//            String keyMapId = IntrospectedTableUtil.getUnionKeyMapId(introspectedTable);
+//            resultElement.addAttribute(new Attribute("resultMap", keyMapId));
+//            resultElement = resultElement;
+//            if(resultElement != null) {
+//                answer.addElement(resultElement);
+//            }
+            for(IntrospectedColumn introspectedColumn : keyColumns) {
+                XmlElement resultElement = new XmlElement("id");
+                resultElement.addAttribute(new Attribute("column", MyBatis3FormattingUtilities.getRenamedColumnNameForResultMap(introspectedColumn)));
+                resultElement.addAttribute(new Attribute("property", FieldConstants.UNION_KEY_PROPERTY_NAME + "." + introspectedColumn.getJavaProperty()));
+                resultElement.addAttribute(new Attribute("jdbcType", introspectedColumn.getJdbcTypeName()));
+                if (stringHasValue(introspectedColumn.getTypeHandler())) {
+                    resultElement.addAttribute(new Attribute("typeHandler", introspectedColumn.getTypeHandler()));
+                }
+                answer.addElement(resultElement);
+            }
         } else {
             for (IntrospectedColumn introspectedColumn : introspectedTable.getPrimaryKeyColumns()) {
                 XmlElement resultElement = new XmlElement("id");
@@ -82,9 +98,7 @@ public class ExtendedResultMapWithoutBLOBsElementGenerator extends ResultMapWith
             columns = introspectedTable.getBaseColumns();
         }
         addBaseColumnResultToMap(columns, answer);
-        if(unionKeyResult != null) {
-            answer.addElement(unionKeyResult);
-        }
+
     }
 
     private void addResultMapConstructorElements(XmlElement answer) {
