@@ -1,20 +1,44 @@
 package com.study.mybatis.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
-public class BaseEntity implements Serializable {
-
+public class BaseEntity<Key extends Serializable> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private LocalDateTime createTime;
+    private Key id;
+    private Long crTime;
+    private Long upTime;
 
-    public LocalDateTime getCreateTime() {
-        return createTime;
+    public Key getId() {
+        return id;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
+    public void setId(Key id) {
+        this.id = id;
     }
 
+    public Long getCrTime() {
+        return crTime;
+    }
+
+    public void setCrTime(Long crTime) {
+        this.crTime = crTime;
+    }
+
+    public Long getUpTime() {
+        return upTime;
+    }
+
+    public void setUpTime(Long upTime) {
+        this.upTime = upTime;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseEntity{" +
+            "id=" + id +
+            ", crTime=" + crTime +
+            ", upTime=" + upTime +
+            '}';
+    }
 }

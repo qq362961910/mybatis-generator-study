@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBatis3Impl {
 
-    private Map<ExtendedIntrospectedTableInternalAttribute, String> extendedInternalAttributes = new HashMap<>();
+    private final Map<ExtendedIntrospectedTableInternalAttribute, String> extendedInternalAttributes = new HashMap<>();
 
     @Override
     protected void calculateJavaModelGenerators(List<String> warnings, ProgressCallback progressCallback) {
