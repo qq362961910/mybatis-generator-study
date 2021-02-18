@@ -1,7 +1,12 @@
 package util;
 
+import cn.t.util.common.CollectionUtil;
 import constants.JavaModelGeneratorConstants;
+import org.mybatis.generator.api.IntrospectedColumn;
+import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.config.JavaModelGeneratorConfiguration;
+
+import java.util.List;
 
 public class JavaModelGeneratorUtil {
 
@@ -11,7 +16,7 @@ public class JavaModelGeneratorUtil {
             return false;
         }
         try {
-            return Boolean.valueOf(str);
+            return Boolean.parseBoolean(str);
         } catch (Exception e) {
             return false;
         }
@@ -23,9 +28,20 @@ public class JavaModelGeneratorUtil {
             return false;
         }
         try {
-            return Boolean.valueOf(str);
+            return Boolean.parseBoolean(str);
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public static String getPrimaryKeyType(IntrospectedTable introspectedTable) {
+        List<IntrospectedColumn> introspectedColumnList = introspectedTable.getPrimaryKeyColumns();
+        if(CollectionUtil.isEmpty(introspectedColumnList)) {
+            return null;
+        } else if(introspectedColumnList.size() == 1){
+            return introspectedColumnList.get(0).getFullyQualifiedJavaType().getFullyQualifiedName();
+        } else {
+            return introspectedTable.getPrimaryKeyType();
         }
     }
 

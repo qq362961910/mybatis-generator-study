@@ -1,14 +1,16 @@
 package generator;
 
+import cn.t.util.common.StringUtil;
 import constants.ClassConstants;
 import constants.FieldConstants;
 import constants.PackageConstants;
+import generator.api.dom.java.ExtendedFullyQualifiedJavaType;
+import generator.codegen.ExtendedRootClassInfo;
 import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.Plugin;
 import org.mybatis.generator.api.dom.java.*;
-import org.mybatis.generator.codegen.RootClassInfo;
 import org.mybatis.generator.codegen.mybatis3.model.BaseRecordGenerator;
 import org.mybatis.generator.internal.util.JavaBeansUtil;
 import util.IntrospectedTableUtil;
@@ -48,6 +50,10 @@ public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
 
         FullyQualifiedJavaType superClass = getSuperClass();
         if (superClass != null) {
+            String primaryKeyType = JavaModelGeneratorUtil.getPrimaryKeyType(introspectedTable);
+            if(!StringUtil.isEmpty(primaryKeyType)) {
+                superClass.addTypeArgument(new FullyQualifiedJavaType(primaryKeyType));
+            }
             topLevelClass.setSuperClass(superClass);
             topLevelClass.addImportedType(superClass);
         }
@@ -68,7 +74,7 @@ public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
 
         String rootClass = getRootClass();
         for (IntrospectedColumn introspectedColumn : introspectedColumns) {
-            if (RootClassInfo.getInstance(rootClass, warnings)
+            if (ExtendedRootClassInfo.getInstance(rootClass, warnings)
                 .containsProperty(introspectedColumn)) {
                 continue;
             }
@@ -92,8 +98,7 @@ public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
         List<CompilationUnit> answer = new ArrayList<>();
         if (context.getPlugins().modelBaseRecordClassGenerated(topLevelClass, introspectedTable)) {
             answer.add(topLevelClass);
-
-            //如果补充真正要使用的类
+            //补充真正要使用的类
             if(JavaModelGeneratorUtil.generateBaseRecordClass(context.getJavaModelGeneratorConfiguration())) {
                 TopLevelClass subTopLevelClass = new TopLevelClass(baseRecordType);
                 subTopLevelClass.setVisibility(JavaVisibility.PUBLIC);
@@ -108,12 +113,12 @@ public class ExtendedBaseRecordGenerator extends BaseRecordGenerator {
     }
 
     /**
-     * 此处修改了父类的实现从而使实体类不再继承主键类
+     * 此处修改了父类的实现从而使实体类不再继承主键类,并重写了getFullyQualifiedName方法
      * */
     private FullyQualifiedJavaType getSuperClass() {
         String rootClass = getRootClass();
         if (rootClass != null) {
-            return new FullyQualifiedJavaType(rootClass);
+            return new ExtendedFullyQualifiedJavaType(rootClass);
         }
         return null;
     }
