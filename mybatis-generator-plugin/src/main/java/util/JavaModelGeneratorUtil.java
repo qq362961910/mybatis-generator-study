@@ -4,6 +4,9 @@ import cn.t.util.common.CollectionUtil;
 import constants.JavaModelGeneratorConstants;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
+import org.mybatis.generator.api.dom.java.Field;
+import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
+import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.config.JavaModelGeneratorConfiguration;
 
 import java.util.List;
@@ -43,6 +46,17 @@ public class JavaModelGeneratorUtil {
         } else {
             return introspectedTable.getPrimaryKeyType();
         }
+    }
+
+    public static Field generateSerialVersionUidField() {
+        Field serialVersionUID = new Field();
+        serialVersionUID.setName("serialVersionUID");
+        serialVersionUID.setVisibility(JavaVisibility.PRIVATE);
+        serialVersionUID.setStatic(true);
+        serialVersionUID.setFinal(true);
+        serialVersionUID.setType(new FullyQualifiedJavaType("long"));
+        serialVersionUID.setInitializationString("1L");
+        return serialVersionUID;
     }
 
 }

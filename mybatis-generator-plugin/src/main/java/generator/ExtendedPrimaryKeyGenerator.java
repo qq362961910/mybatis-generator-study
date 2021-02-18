@@ -7,6 +7,7 @@ import org.mybatis.generator.api.Plugin;
 import org.mybatis.generator.api.dom.java.*;
 import org.mybatis.generator.codegen.RootClassInfo;
 import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
+import util.JavaModelGeneratorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,8 @@ public class ExtendedPrimaryKeyGenerator extends PrimaryKeyGenerator {
         TopLevelClass topLevelClass = new TopLevelClass(type);
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
         commentGenerator.addJavaFileComment(topLevelClass);
+        //serialVersionUID属性设置
+        topLevelClass.getFields().add(0, JavaModelGeneratorUtil.generateSerialVersionUidField());
 
         String rootClass = getRootClass();
         if (rootClass != null) {
@@ -79,7 +82,7 @@ public class ExtendedPrimaryKeyGenerator extends PrimaryKeyGenerator {
             }
         }
 
-        List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
+        List<CompilationUnit> answer = new ArrayList<>();
         if (context.getPlugins().modelPrimaryKeyClassGenerated(
             topLevelClass, introspectedTable)) {
             answer.add(topLevelClass);

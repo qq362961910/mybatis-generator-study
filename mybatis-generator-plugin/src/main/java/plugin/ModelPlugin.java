@@ -4,8 +4,8 @@ import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
-import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
+import util.JavaModelGeneratorUtil;
 
 import java.util.List;
 
@@ -34,13 +34,7 @@ public class ModelPlugin extends PluginAdapter {
      */
     @Override
     public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        Field serialVersionUID = new Field();
-        serialVersionUID.setName("serialVersionUID");
-        serialVersionUID.setVisibility(JavaVisibility.PRIVATE);
-        serialVersionUID.setStatic(true);
-        serialVersionUID.setFinal(true);
-        serialVersionUID.setType(new FullyQualifiedJavaType("long"));
-        serialVersionUID.setInitializationString("1L");
+        Field serialVersionUID = JavaModelGeneratorUtil.generateSerialVersionUidField();
         topLevelClass.getFields().add(0, serialVersionUID);
         return super.modelBaseRecordClassGenerated(topLevelClass, introspectedTable);
     }
