@@ -36,7 +36,7 @@ public class IntrospectedTableUtil {
             return false;
         }
         try {
-            return Boolean.valueOf(str);
+            return Boolean.parseBoolean(str);
         } catch (Exception e) {
             return false;
         }
@@ -48,7 +48,7 @@ public class IntrospectedTableUtil {
             return false;
         }
         try {
-            return Boolean.valueOf(str);
+            return Boolean.parseBoolean(str);
         } catch (Exception e) {
             return false;
         }

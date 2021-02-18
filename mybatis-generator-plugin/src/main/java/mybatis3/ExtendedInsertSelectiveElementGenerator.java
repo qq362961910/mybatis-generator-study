@@ -70,7 +70,7 @@ public class ExtendedInsertSelectiveElementGenerator extends InsertSelectiveElem
         List<IntrospectedColumn> primaryKeyColumns = introspectedTable.getPrimaryKeyColumns();
         List<IntrospectedColumn> introspectedColumnList = ListUtilities.removeIdentityAndGeneratedAlwaysColumns(introspectedTable.getAllColumns());
 
-        /**
+        /*
          * 联合主键情况下从introspectedColumnList删除掉相关主键列，并提前最sql拼接处理
          * */
         if(IntrospectedTableUtil.isUnionKeyTable(introspectedTable)) {
