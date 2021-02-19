@@ -18,14 +18,14 @@ public class IntrospectedTableUtil {
     public static void setUnionKeyMapId(IntrospectedTable introspectedTable, String mapId) {
         ExtendedIntrospectedTableMyBatis3Impl introspectedTableMyBatis3 = convertToExtendedIntrospectedTableMyBatis3Impl(introspectedTable);
         if(introspectedTable != null) {
-            introspectedTableMyBatis3.setUnionKeyMapId(mapId);
+            introspectedTableMyBatis3.setUnionPrimaryKeyMapId(mapId);
         }
     }
 
     public static String getUnionKeyMapId(IntrospectedTable introspectedTable) {
         ExtendedIntrospectedTableMyBatis3Impl introspectedTableMyBatis3 = convertToExtendedIntrospectedTableMyBatis3Impl(introspectedTable);
         if(introspectedTable != null) {
-            return introspectedTableMyBatis3.getUnionKeyMapId();
+            return introspectedTableMyBatis3.getUnionPrimaryKeyMapId();
         }
         return null;
     }

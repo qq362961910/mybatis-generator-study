@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBatis3Impl {
 
-    private final Map<ExtendedIntrospectedTableInternalAttribute, String> extendedInternalAttributes = new HashMap<>();
+    private final Map<ExtendedIntrospectedTableInternalAttribute, Object> extendedInternalAttributes = new HashMap<>();
 
     @Override
     protected void calculateJavaModelGenerators(List<String> warnings, ProgressCallback progressCallback) {
@@ -55,17 +55,8 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
         }
     }
 
-    /**
-     * 该代码针对联合主键情况用来修改内IntrospectedColumn#javaType属性名称
-     * 如果此处修改会产生一连串的连锁反映不能打开
-     * */
     @Override
     public void initialize() {
-//        if(IntrospectedTableUtil.isUnionKeyTable(this)) {
-//            for(IntrospectedColumn column: primaryKeyColumns) {
-//                column.setJavaProperty(FieldConstants.UNION_KEY_PROPERTY_NAME.concat(".").concat(column.getJavaProperty()));
-//            }
-//        }
         super.initialize();
     }
 
@@ -113,15 +104,14 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
     @Override
     protected void calculateXmlAttributes() {
         super.calculateXmlAttributes();
-        setUnionKeyMapId(XmlMapConstants.EXT_UNION_KEY_MAP);
+        setUnionPrimaryKeyMapId(XmlMapConstants.EXT_UNION_PRIMARY_KEY_MAP);
     }
 
-    public void setUnionKeyMapId(String s) {
+    public void setUnionPrimaryKeyMapId(String s) {
         extendedInternalAttributes.put(ExtendedIntrospectedTableInternalAttribute.ATTR_UNION_KEY_MAP_ID, s);
     }
 
-    public String getUnionKeyMapId() {
-        return extendedInternalAttributes.get(ExtendedIntrospectedTableInternalAttribute.ATTR_UNION_KEY_MAP_ID);
+    public String getUnionPrimaryKeyMapId() {
+        return (String)extendedInternalAttributes.get(ExtendedIntrospectedTableInternalAttribute.ATTR_UNION_KEY_MAP_ID);
     }
-
 }
