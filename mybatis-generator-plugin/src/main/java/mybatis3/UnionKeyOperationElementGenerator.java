@@ -61,24 +61,28 @@ public class UnionKeyOperationElementGenerator extends SelectByPrimaryKeyElement
                 //from table
                 answer.addElement(new TextElement("from " + introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime()));
 
+                XmlElement where = new XmlElement("where");
+                answer.addElement(where);
                 StringBuilder sb = new StringBuilder();
-                boolean and = false;
                 for(KeyDescriptor kd: keyDescriptorList) {
                     for (IntrospectedColumn introspectedColumn : introspectedTable.getBaseColumns()) {
                         if(introspectedColumn.getActualColumnName().equalsIgnoreCase(kd.getColumnName())) {
+
                             sb.setLength(0);
-                            if (and) {
-                                sb.append("  and ");
-                            } else {
-                                sb.append("where ");
-                                and = true;
-                            }
+                            sb.append(introspectedColumn.getJavaProperty());
+                            sb.append(" != null");
+                            XmlElement isNotNullElement = new XmlElement("if");
+                            isNotNullElement.addAttribute(new Attribute("test", sb.toString()));
+                            where.addElement(isNotNullElement);
+
+                            sb.setLength(0);
+                            sb.append("  and ");
                             sb.append(MyBatis3FormattingUtilities
                                 .getAliasedEscapedColumnName(introspectedColumn));
                             sb.append(" = ");
                             sb.append(MyBatis3FormattingUtilities
                                 .getParameterClause(introspectedColumn));
-                            answer.addElement(new TextElement(sb.toString()));
+                            isNotNullElement.addElement(new TextElement(sb.toString()));
                             break;
                         }
                     }
