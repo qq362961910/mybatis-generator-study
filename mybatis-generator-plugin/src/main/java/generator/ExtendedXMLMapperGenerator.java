@@ -6,6 +6,7 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.*;
 import util.IntrospectedTableUtil;
+import util.JavaModelGeneratorUtil;
 
 /**
  * Xml文件生成器扩展，被ExtendedJavaMapperGenerator创建
@@ -16,9 +17,9 @@ public class ExtendedXMLMapperGenerator extends XMLMapperGenerator {
     @Override
     protected XmlElement getSqlMapElement() {
         if(simpleRecordClassName()) {
-            introspectedTable.setPrimaryKeyType(simplyClassName(introspectedTable.getPrimaryKeyType()));
-            introspectedTable.setBaseRecordType(simplyClassName(introspectedTable.getBaseRecordType()));
-            introspectedTable.setExampleType(simplyClassName(introspectedTable.getExampleType()));
+            introspectedTable.setPrimaryKeyType(JavaModelGeneratorUtil.getSimpleClassName(introspectedTable.getPrimaryKeyType()));
+            introspectedTable.setBaseRecordType(JavaModelGeneratorUtil.getSimpleClassName(introspectedTable.getBaseRecordType()));
+            introspectedTable.setExampleType(JavaModelGeneratorUtil.getSimpleClassName(introspectedTable.getExampleType()));
         }
         XmlElement answer = super.getSqlMapElement();
         addSelectAllElement(answer);
@@ -76,17 +77,9 @@ public class ExtendedXMLMapperGenerator extends XMLMapperGenerator {
             return false;
         }
         try {
-            return Boolean.valueOf(simpleRecordClassNameStr);
+            return Boolean.parseBoolean(simpleRecordClassNameStr);
         } catch (Exception e) {
             return false;
         }
-    }
-
-    private String simplyClassName(String fullClassName) {
-        int simplyClassNameIndex = fullClassName.lastIndexOf(".") + 1;
-        if(simplyClassNameIndex == -1) {
-            return fullClassName;
-        }
-        return fullClassName.substring(simplyClassNameIndex);
     }
 }

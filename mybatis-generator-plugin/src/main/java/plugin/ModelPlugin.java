@@ -1,5 +1,6 @@
 package plugin;
 
+import constants.FieldConstants;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.Field;
@@ -23,7 +24,6 @@ import java.util.List;
  * */
 public class ModelPlugin extends PluginAdapter {
 
-    private static final FullyQualifiedJavaType SERIALIZABLE = new FullyQualifiedJavaType("java.io.Serializable");
 
     public boolean validate(List<String> warnings) {
         return true;
@@ -46,9 +46,9 @@ public class ModelPlugin extends PluginAdapter {
     public boolean modelPrimaryKeyClassGenerated(TopLevelClass topLevelClass,
                                                  IntrospectedTable introspectedTable) {
         topLevelClass.setSuperClass((FullyQualifiedJavaType)null);
-        topLevelClass.addSuperInterface(SERIALIZABLE);
+        topLevelClass.addSuperInterface(FieldConstants.SERIALIZABLE);
         topLevelClass.getImportedTypes().clear();
-        topLevelClass.addImportedType(SERIALIZABLE);
+        topLevelClass.addImportedType(FieldConstants.SERIALIZABLE);
         return true;
     }
 }
