@@ -168,4 +168,23 @@ public class ExtendedIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBa
     public Map<String, List<KeyDescriptor>> getKeyDescriptorMap() {
         return (Map<String, List<KeyDescriptor>>)extendedInternalAttributes.get(ExtendedIntrospectedTableInternalAttribute.KEY_DESCRIPTOR_MAP);
     }
+
+    @SuppressWarnings("unchecked")
+    public void setUnionKeyJavaTypeName(String unionIndexName, String javaTypeName) {
+        Map<String, String> unionKeyJavaTypeNameMap = (Map<String, String>)extendedInternalAttributes.get(ExtendedIntrospectedTableInternalAttribute.UNION_KEY_JAVA_TYPE_NAME_MAP);
+        if(unionKeyJavaTypeNameMap == null) {
+            unionKeyJavaTypeNameMap = new HashMap<>();
+            extendedInternalAttributes.put(ExtendedIntrospectedTableInternalAttribute.UNION_KEY_JAVA_TYPE_NAME_MAP, unionKeyJavaTypeNameMap);
+        }
+        unionKeyJavaTypeNameMap.put(unionIndexName, javaTypeName);
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getUnionKeyJavaTypeName(String unionIndexName) {
+        Map<String, String> unionKeyJavaTypeNameMap = (Map<String, String>)extendedInternalAttributes.get(ExtendedIntrospectedTableInternalAttribute.UNION_KEY_JAVA_TYPE_NAME_MAP);
+        if(unionKeyJavaTypeNameMap == null) {
+            return null;
+        }
+        return unionKeyJavaTypeNameMap.get(unionIndexName);
+    }
 }

@@ -82,10 +82,11 @@ public class UnionKeyJavaGenerator extends AbstractJavaGenerator {
                                         topLevelClass.addMethod(method);
                                     }
                                 }
+                                break;
                             }
                         }
                     });
-
+                    extendedIntrospectedTable.setUnionKeyJavaTypeName(key, JavaModelGeneratorUtil.getSimpleClassName(topLevelClassQualifiedName));
                     answer.add(topLevelClass);
                 });
                 return answer;

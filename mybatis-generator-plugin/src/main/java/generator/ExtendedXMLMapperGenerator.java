@@ -23,6 +23,7 @@ public class ExtendedXMLMapperGenerator extends XMLMapperGenerator {
         }
         XmlElement answer = super.getSqlMapElement();
         addSelectAllElement(answer);
+        addUnionKeyOperationElement(answer);
         return answer;
     }
 
@@ -68,6 +69,11 @@ public class ExtendedXMLMapperGenerator extends XMLMapperGenerator {
 
     private void addSelectAllElement(XmlElement parentElement) {
         AbstractXmlElementGenerator elementGenerator =  new SelectAllElementGenerator();
+        initializeAndExecuteGenerator(elementGenerator, parentElement);
+    }
+
+    private void addUnionKeyOperationElement(XmlElement parentElement) {
+        AbstractXmlElementGenerator elementGenerator =  new UnionKeyOperationElementGenerator();
         initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
